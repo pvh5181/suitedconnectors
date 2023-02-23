@@ -6,7 +6,7 @@
   font-family: 'Bungee';
   font-style: normal;
   font-weight: 400;
-  src: local("Bungee"), local("Bungee-Regular"), url("/static/fonts/bungee.woff2") format("woff2"), url("/static/fonts/bungee.ttf") format("truetype"); }
+  src: local("Bungee"), local("Bungee-Regular"), url("/static/fonts/Bungee.woff2") format("woff2"), url("/static/fonts/Bungee.ttf") format("truetype"); }
 
 @font-face {
   font-family: 'Questa';
@@ -735,7 +735,7 @@ body > div.inner-content.container-fluid {
   white-space: initial; }
 
 /********************************************* Navbar *********************************************/
-.oddslingers-text-logo {
+.suitedconnectors-text-logo {
   font-family: 'Questa', 'Helvetica';
   font-size: 40px; }
 
@@ -1187,7 +1187,7 @@ body > div.inner-content.container-fluid {
   height: 430px;
   margin-top: 30px; }
 
-.tournament-summary .oddslingers-text-logo {
+.tournament-summary .suitedconnectors-text-logo {
   text-align: center;
   font-size: 60px; }
 
@@ -1195,7 +1195,7 @@ body > div.inner-content.container-fluid {
   margin: 30% auto;
   width: 800px; }
 
-.tournament-summary .tournament-redirect-countdown .modal-dialog .oddslingers-text-logo {
+.tournament-summary .tournament-redirect-countdown .modal-dialog .suitedconnectors-text-logo {
   font-size: 55px; }
 
 .tournament-summary .tournament-redirect-countdown .modal-backdrop.in {

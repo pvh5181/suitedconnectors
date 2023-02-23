@@ -21,7 +21,7 @@ import Col from 'react-bootstrap/lib/Col'
 
 
 const style = `
-    h1.oddslingers-text-logo {
+    h1.suitedconnectors-text-logo {
         text-align: left;
         font-size: 66px;
     }
@@ -61,7 +61,7 @@ const style = `
         }
     }
     @media (max-width: 336px) {
-        h1.oddslingers-text-logo {
+        h1.suitedconnectors-text-logo {
             margin-top: -20px;
         }
         .table-thumbnail {
@@ -308,7 +308,7 @@ class BetList extends React.Component {
             <style>{style}</style>
 
             <Row>
-                <h1 className="oddslingers-text-logo">
+                <h1 className="suitedconnectors-text-logo">
                     Sidebets <ReloadButton/>
                 </h1>
                 <hr/>
@@ -322,7 +322,7 @@ class BetList extends React.Component {
 
             <br/>
             <br/>
-            <h1 className="oddslingers-text-logo text-center">
+            <h1 className="suitedconnectors-text-logo text-center">
                 Popular Tables
             </h1>
             <hr/>

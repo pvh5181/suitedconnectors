@@ -38,7 +38,7 @@
         {% theme_option light_option='light' dark_option='dark' as option_pre %}
         <link rel="preload" as="style" href="{% http2static 'css/'|add:option_pre|add:'.css' GIT_SHA %}" crossorigin>
         <link rel="preload" as="style" href="{% http2static 'css/base.mobile.css' GIT_SHA %}" crossorigin>
-        <link rel="preload" as="font" type="font/woff2" href="{% http2static 'fonts/bungee.woff2' %}" crossorigin="anonymous">
+        <link rel="preload" as="font" type="font/woff2" href="{% http2static 'fonts/Bungee.woff2' %}" crossorigin="anonymous">
         <link rel="preload" as="font" type="font/woff2" href="{% http2static 'fonts/lato-light.woff2'%}" crossorigin="anonymous">
         <link rel="preload" as="font" type="font/woff2" href="{% http2static 'fonts/lato-regular.woff2'%}" crossorigin="anonymous">
         <link rel="preload" as="font" type="font/woff2" href="{% http2static 'fonts/fontawesome-webfont.woff2' '4.7.0' %}" crossorigin="anonymous">
@@ -72,18 +72,18 @@
                 {
                   "@context": "http://schema.org",
                   "@type": "Organization",
-                  "url": "https://oddslingers.com",
-                  "logo": "https://oddslingers.com/images/oddslingers-b.png"
+                  "url": "https://suitedconnectors.com",
+                  "logo": "https://suitedconnectors.com/images/suitedconnectors-b.png"
                 }
             </script>
             <script type="application/ld+json">
                 {
                   "@context": "http://schema.org",
                   "@type": "WebSite",
-                  "url": "https://oddslingers.com",
+                  "url": "https://suitedconnectors.com",
                   "potentialAction": {
                     "@type": "SearchAction",
-                    "target": "https://oddslingers.com/tables/?search={search_term_string}",
+                    "target": "https://suitedconnectors.com/tables/?search={search_term_string}",
                     "query-input": "required name=search_term_string"
                   }
                 }
@@ -96,14 +96,14 @@
                     "@type": "ListItem",
                     "position": 1,
                     "item": {
-                      "@id": "https://oddslingers.com",
+                      "@id": "https://suitedconnectors.com",
                       "name": "Oddslingers"
                     }
                   },{
                     "@type": "ListItem",
                     "position": 2,
                     "item": {
-                      "@id": "https://oddslingers.com{{request.path}}",
+                      "@id": "https://suitedconnectors.com{{request.path}}",
                       "name": "{{title}}"
                     }
                   }]

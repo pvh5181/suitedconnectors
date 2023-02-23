@@ -222,7 +222,7 @@ const style = `
     }
 
     @media (max-width: 767px) {
-        h1.oddslingers-text-logo  {
+        h1.suitedconnectors-text-logo  {
             text-align: center;
             font-size: 66px;
             margin-top: -15px;
@@ -256,7 +256,7 @@ const style = `
         }
     }
     @media (max-width: 336px) {
-        h1.oddslingers-text-logo {
+        h1.suitedconnectors-text-logo {
             margin-top: -20px;
         }
         .table-thumbnail {
@@ -527,6 +527,9 @@ const TableForm = ({onNewTable, cashGameBBs, thresholdBBEmailVerified, state}) =
                             <option value="NLHE">No Limit Hold'em</option>
                             <option value="BNTY">No Limit Bounty</option>
                             <option value="PLO">Pot Limit Omaha</option>
+                            <option value="FPLO">Five Card Pot Limit Omaha</option>
+                            <option value="SDNLHE">Short Deck No Limit Hold'em</option>
+                            <option value="SDPLO">Short Deck Pot Limit Omaha</option>
                         </select>
                     </div>
                     <div id='new-table-column'>
@@ -614,6 +617,9 @@ const TournamentForm = ({onNewTable, tourneyBuyinAmts, state}) =>
                     <option value="NLHE">No Limit Hold'em</option>
                     <option value="BNTY">No Limit Bounty</option>
                     <option value="PLO">Pot Limit Omaha</option>
+                    <option value="FPLO">Five Card Pot Limit Omaha</option>
+                    <option value="SDNLHE">Short Deck No Limit Hold'em</option>
+                    <option value="SDPLO">Short Deck Pot Limit Omaha</option>
                 </select>
                 <br/>
                 <br/>
@@ -676,6 +682,9 @@ class TableList extends React.Component {
             show_plo: true,
             show_nlhe: true,
             show_bnty: true,
+            show_sd_nlhe: true,
+            show_sd_plo: true,
+            show_f_plo: true,
             errors: [],
             filter_errors: []
         }
@@ -768,7 +777,7 @@ class TableList extends React.Component {
         ]
         const {
             search, show_cash_tables, show_tournaments,
-            show_plo, show_nlhe, show_bnty, show_locked,
+            show_plo, show_nlhe, show_bnty, show_sd_nlhe, show_sd_plo, show_f_plo, show_locked,
         } = this.state
 
         if (search) {
@@ -793,6 +802,18 @@ class TableList extends React.Component {
             tables = tables.filter(table => table.variant !== 'NLHE')
         }
 
+        if (!show_sd_plo) {
+            tables = tables.filter(table => table.variant !== 'SDPLO')
+        }
+
+        if (!show_f_plo) {
+            tables = tables.filter(table => table.variant !== 'FPLO')
+        }
+
+        if (!show_sd_nlhe) {
+            tables = tables.filter(table => table.variant !== 'SDNLHE')
+        }
+
         if (!show_bnty) {
             tables = tables.filter(table => table.variant !== 'BNTY')
         }
@@ -808,7 +829,7 @@ class TableList extends React.Component {
     }
     checkFilterErrors() {
         const game_types = ['show_cash_tables', 'show_tournaments']
-        const game_variants = ['show_plo', 'show_nlhe', 'show_bnty']
+        const game_variants = ['show_plo', 'show_nlhe', 'show_f_plo', 'show_sd_plo', 'show_sd_nlhe', 'show_bnty']
         const errors = []
 
         const any_type_checked = game_types.some(
@@ -896,6 +917,25 @@ class TableList extends React.Component {
                                onChange={() => this.onToggleCheckbox('show_bnty')}
                                checked={this.state.show_bnty}/>
                         <label className="label-filter" htmlFor="bnty-input">2/7 Bounty</label>
+
+                        <input id="f-omaha-input"
+                               type="checkbox"
+                               onChange={() => this.onToggleCheckbox('show_f_plo')}
+                               checked={this.state.show_plo}/>
+                        <label className="label-filter" htmlFor="f-omaha-input">FiveCardOmaha</label> &nbsp; &nbsp;
+
+                        <input id="sd-omaha-input"
+                               type="checkbox"
+                               onChange={() => this.onToggleCheckbox('show_sd_plo')}
+                               checked={this.state.show_plo}/>
+                        <label className="label-filter" htmlFor="sd-omaha-input">ShortDeckOmaha</label> &nbsp; &nbsp;
+
+                        <input id="sd-nlhe-input"
+                               type="checkbox"
+                               onChange={() => this.onToggleCheckbox('show_sd_nlhe')}
+                               checked={this.state.show_nlhe}/>
+                        <label className="label-filter" htmlFor="sd-nlhe-input">ShortDeckHold'Em</label> &nbsp; &nbsp;
+
 
                         {global.user ? 
                             <span>

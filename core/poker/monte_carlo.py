@@ -4,7 +4,7 @@ import locale
 
 from timeit import default_timer as timer
 
-from oddslingers.utils import ExtendedEncoder
+from suitedconnectors.utils import ExtendedEncoder
 
 from poker.hand_ranges import (
     Hand, HandRange, FULL_RANGE, with_hand_values, pruned

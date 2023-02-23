@@ -1,5 +1,7 @@
 import logging
 import traceback
+import random
+import time
 
 from typing import Type, List, Dict, Tuple, Union, Optional
 
@@ -9,7 +11,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.db import transaction
 
-from oddslingers.utils import (
+from suitedconnectors.utils import (
     autocast, rotated, get_next_filename, timezone, to_json_str,
     secure_random_number,
 )
@@ -19,7 +21,7 @@ from sockets.models import Socket
 from poker import rankings
 from poker.accessors import PokerAccessor, accessor_type_for_table
 from poker.constants import (
-    Event, Action, NEW_HAND_STR, NL_HOLDEM, PL_OMAHA, NL_BOUNTY,
+    Event, Action, NEW_HAND_STR, NL_HOLDEM, PL_OMAHA, NL_BOUNTY, F_PL_OMAHA, SD_PL_OMAHA, SD_NL_HOLDEM,
     SIDE_EFFECT_SUBJ, ANIMATION_DELAYS,
     NUM_HOLECARDS, PlayingState, BLINDS_SCHEDULE,
     HANDS_TO_INCREASE_BLINDS, SIDEBET_ACTIONS, VISIBLE_ACTIONS
@@ -33,7 +35,7 @@ from poker.subscribers import (
     TableStatsSubscriber, TournamentResultsSubscriber,
     TournamentChatSubscriber, LevelSubscriber, AnalyticsEventSubscriber,
 )
-from oddslingers.subscribers import UserStatsSubscriber
+from suitedconnectors.subscribers import UserStatsSubscriber
 from rewards.subscribers import BadgeSubscriber  # noqa
 from sidebets.subscribers import SidebetSubscriber
 
@@ -290,6 +292,7 @@ class GameController:
             broadcast_to_sockets(self.accessor,
                                 self.subscribers,
                                 broadcast_only_to_player)
+
 
 
 class HoldemController(GameController):
@@ -981,6 +984,7 @@ class HoldemController(GameController):
             self.step()
 
     def shuffle_and_start_new_hand(self, mocked_deck_str=None):
+        #mocked_deck_str = "Ac,9d,Ts,Kh,2s,3h,4c,5c,Kc,6d,7d,8d,9d,Td,Jd,Qd,Kd,Ad,6h,7h,8h,9h,Th,Jh,Qh,Kh,Ah,6s,7s,8s,9s,Ts,Js,Qs,Ks,As"
         if mocked_deck_str:
             self.assert_testing_or_mock()
             shuffle_kwargs = {'deck_str': mocked_deck_str,}
@@ -992,8 +996,10 @@ class HoldemController(GameController):
         ]
 
     def assert_testing_or_mock(self):
+
         assert self.table.is_mock or settings.IS_TESTING,\
                 'this method should be used for replaying or testing only'
+
 
     def prepare_hand(self):
         self.internal_dispatch(self.rebuy_checks())
@@ -1887,6 +1893,123 @@ class HoldemController(GameController):
         }
 
 
+class ShortDeckHoldemController(HoldemController):
+    expected_tabletype = SD_NL_HOLDEM
+
+    def setup_hand(self, mocked_blinds=None, mocked_deck_str=None):
+            '''
+            beginning of hand non-side-effect events:
+                prepare_hand
+                    BUY / UPDATE_STACK
+                    SIT_OUT / LEAVE_SEAT
+                    SET_TIMEBANK
+                    SET_BLIND_POS (special case--lock btn when only 1 player)
+                    SIT_IN / SIT_OUT (given blinds)
+                    RESET
+                sit_in_pending_and_move_blinds
+                    OWE_SB / OWE_BB
+                    SIT_IN (special case--new round)
+                    ADD_ORBIT_SITTING_OUT / LEAVE_SEAT
+                    SET_BLIND_POS
+                shuffle_and_start_new_hand
+                    SHUFFLE
+                    -> NEW_HAND (side-effect; snapshots state) <-
+                post_and_deal
+                    ANTE / POST / POST_DEAD
+                    DEAL
+
+            note that mocked_blinds and mocked_deck_str can only be used in
+                replayers or in testing
+            '''
+
+
+            should_start = self.prepare_hand()
+            if should_start:
+                #TODO(#1): remove this implementation of short deck, make it implemented at deck creation level
+                mock_deck = "6c,7c,8c,9c,Tc,Jc,Qc,Kc,Ac,6d,7d,8d,9d,Td,Jd,Qd,Kd,Ad,6h,7h,8h,9h,Th,Jh,Qh,Kh,Ah,6s,7s,8s,9s,Ts,Js,Qs,Ks,As"
+                mock_deck_lst = mock_deck.split(",")
+                random.shuffle(mock_deck_lst)
+                mocked_deck_str = ",".join(str(i) for i in mock_deck_lst)
+                #mocked_deck_str = "As,6c,Ac,6s,6d,7d,8s,9c,Js,Jc,7d,8d,9d,Td,Jd,Qd,Kd,Ad,6h,7h,8h,9h,Th,Jh,Qh,Kh,Ah,6s,7s,8s,9s,Ts,Js,Qs,Ks,As"
+
+                self.internal_dispatch(
+                    self.sit_in_pending_and_move_blinds(mocked_blinds)
+                )
+                self.internal_dispatch(
+                    self.shuffle_and_start_new_hand(mocked_deck_str)
+                )
+                self.internal_dispatch(self.post_and_deal())
+                self.step()
+
+
+    def shuffle_and_start_new_hand(self, mocked_deck_str=None):
+        if mocked_deck_str:
+            #self.assert_testing_or_mock()  #TODO(#1): remove this implementation of short deck
+            shuffle_kwargs = {'deck_str': mocked_deck_str,}
+        else:
+            shuffle_kwargs = {}
+        return [
+            (self.accessor.table, Event.SHUFFLE, shuffle_kwargs),
+            (SIDE_EFFECT_SUBJ, Event.NEW_HAND, {}),
+        ]
+
+
+
+    def showdown_win_events(self, showdown_winnings_for_pot):
+        return [
+            (plyr, Event.WIN, win_kwargs)
+            for plyr, win_kwargs in showdown_winnings_for_pot.items()
+        ]
+
+    def reveal_hands(self, winning_players, show_msg=True):
+        events = []
+
+        players = self.accessor.players_in_acting_order()
+        raisers = [p.position for p in players
+                   if p.last_action in (Event.BET, Event.RAISE_TO)]
+        rotate = raisers[-1] if raisers else None
+
+        showdown_players = self.accessor.showdown_players(rotate)
+        # this player always reveal
+        players_and_events = [(showdown_players[0], 'reveal')]
+
+        # this offset is to keep the last reveal player index
+        last_reveal_ofs = 0
+        for index in range(len(showdown_players) - 1):
+            player1 = showdown_players[index + 1]
+            player2 = players_and_events[-1 - last_reveal_ofs][0]
+            # if win a sidepot or has better hand than the last reveal, reveal
+            is_winner = player1 in winning_players
+            if is_winner or self.accessor.has_gte_hand(player1, player2):
+                players_and_events.append((player1, 'reveal'))
+                last_reveal_ofs = 0
+            else:
+                # else muck, and keep the last reveal index
+                players_and_events.append((player1, 'muck'))
+                last_reveal_ofs += 1
+
+        for plyr, event in players_and_events:
+            if event == 'reveal':
+                cards_str = ', '.join(c.pretty() for c in plyr.cards)
+                hand_name = cards_str
+                if show_msg:
+                    hand = self.accessor.player_hand(plyr)
+                    hand_name = rankings.hand_to_name_shortdeck(hand)
+                events.append((plyr, Event.REVEAL_HAND, {
+                    'player_id': plyr.id,
+                    'cards': plyr.cards,
+                    'description': hand_name
+                }))
+                if show_msg:
+                    msg = f'{plyr.username} has {cards_str} ({hand_name})'
+                    events.append(self._dealer_msg_event(msg))
+            else:
+                events.append((plyr, Event.MUCK, {'player_id': plyr.id}))
+                msg = f'{plyr.username} mucked'
+                events.append(self._dealer_msg_event(msg))
+
+        return events
+
 class BountyController(HoldemController):
     expected_tabletype = NL_BOUNTY
 
@@ -1967,6 +2090,181 @@ class BountyController(HoldemController):
             return True
         return False
 
+class FiveCardOmahaController(HoldemController):
+    expected_tabletype = F_PL_OMAHA
+    @autocast
+    def bet(self, player_id: str, amt: Decimal, **kwargs):
+        player = self.accessor.player_by_player_id(player_id)
+        pot_bet = self.accessor.pot_raise_size()
+
+        if amt > player.stack or amt > pot_bet \
+                or (amt < self.table.bb and amt != player.stack):
+            raise ValueError('Invalid bet amount')
+        all_in = player.stack_available - amt == 0
+
+        return [
+            (player, Event.BET, {'amt': amt, 'all_in': all_in}),
+            *self.timing_events(player, Action.RAISE_TO)
+        ]
+
+    @autocast
+    def raise_to(self, player_id: str, amt: Decimal, **kwargs):
+        player = self.accessor.player_by_player_id(player_id)
+        min_amt = self.accessor.min_bet_amt()
+        max_amt = self.accessor.pot_raise_size()
+
+        if amt > player.stack_available or (amt < min_amt \
+                and amt != player.stack_available) or amt > max_amt:
+            raise ValueError('Invalid raise amount')
+        all_in = player.stack_available - amt == 0
+
+        return [
+            (player, Event.RAISE_TO, {'amt': amt, 'all_in': all_in}),
+            *self.timing_events(player, Action.RAISE_TO)
+        ]
+
+
+class ShortDeckOmahaController(HoldemController):
+    expected_tabletype = SD_PL_OMAHA
+
+
+    def setup_hand(self, mocked_blinds=None, mocked_deck_str=None):
+            '''
+            beginning of hand non-side-effect events:
+                prepare_hand
+                    BUY / UPDATE_STACK
+                    SIT_OUT / LEAVE_SEAT
+                    SET_TIMEBANK
+                    SET_BLIND_POS (special case--lock btn when only 1 player)
+                    SIT_IN / SIT_OUT (given blinds)
+                    RESET
+                sit_in_pending_and_move_blinds
+                    OWE_SB / OWE_BB
+                    SIT_IN (special case--new round)
+                    ADD_ORBIT_SITTING_OUT / LEAVE_SEAT
+                    SET_BLIND_POS
+                shuffle_and_start_new_hand
+                    SHUFFLE
+                    -> NEW_HAND (side-effect; snapshots state) <-
+                post_and_deal
+                    ANTE / POST / POST_DEAD
+                    DEAL
+
+            note that mocked_blinds and mocked_deck_str can only be used in
+                replayers or in testing
+            '''
+
+
+            should_start = self.prepare_hand()
+            if should_start:
+
+                #TODO(#1): remove this implementation of short deck, make it implemented at deck creation level
+                mock_deck = "6c,7c,8c,9c,Tc,Jc,Qc,Kc,Ac,6d,7d,8d,9d,Td,Jd,Qd,Kd,Ad,6h,7h,8h,9h,Th,Jh,Qh,Kh,Ah,6s,7s,8s,9s,Ts,Js,Qs,Ks,As"
+                mock_deck_lst = mock_deck.split(",")
+                random.shuffle(mock_deck_lst)
+                mocked_deck_str = ",".join(str(i) for i in mock_deck_lst)
+                #mocked_deck_str = "7h,7c,8s,Jd,6s,Ac,Qs,Kc,7s,Ad,6d,9s,8c,Td,Jd,Qd,Kd,Ad,6h,7h,8h,9h,Th,Jh,Qh,Kh,Ah,6s,7s,9s,Ts,Js,Qs,Ks,As"
+                self.internal_dispatch(
+                    self.sit_in_pending_and_move_blinds(mocked_blinds)
+                )
+                self.internal_dispatch(
+                    self.shuffle_and_start_new_hand(mocked_deck_str)
+                )
+                self.internal_dispatch(self.post_and_deal())
+                self.step()
+
+
+    def shuffle_and_start_new_hand(self, mocked_deck_str=None):
+        if mocked_deck_str:
+            #self.assert_testing_or_mock() TODO(#1): remove this implementation of short deck, make it implemented at deck creation level
+            shuffle_kwargs = {'deck_str': mocked_deck_str,}
+        else:
+            shuffle_kwargs = {}
+        return [
+            (self.accessor.table, Event.SHUFFLE, shuffle_kwargs),
+            (SIDE_EFFECT_SUBJ, Event.NEW_HAND, {}),
+        ]
+
+
+    @autocast
+    def bet(self, player_id: str, amt: Decimal, **kwargs):
+        player = self.accessor.player_by_player_id(player_id)
+        pot_bet = self.accessor.pot_raise_size()
+
+        if amt > player.stack or amt > pot_bet \
+                or (amt < self.table.bb and amt != player.stack):
+            raise ValueError('Invalid bet amount')
+        all_in = player.stack_available - amt == 0
+
+        return [
+            (player, Event.BET, {'amt': amt, 'all_in': all_in}),
+            *self.timing_events(player, Action.RAISE_TO)
+        ]
+
+    @autocast
+    def raise_to(self, player_id: str, amt: Decimal, **kwargs):
+        player = self.accessor.player_by_player_id(player_id)
+        min_amt = self.accessor.min_bet_amt()
+        max_amt = self.accessor.pot_raise_size()
+
+        if amt > player.stack_available or (amt < min_amt \
+                and amt != player.stack_available) or amt > max_amt:
+            raise ValueError('Invalid raise amount')
+        all_in = player.stack_available - amt == 0
+
+        return [
+            (player, Event.RAISE_TO, {'amt': amt, 'all_in': all_in}),
+            *self.timing_events(player, Action.RAISE_TO)
+        ]
+
+    def reveal_hands(self, winning_players, show_msg=True):
+        events = []
+
+        players = self.accessor.players_in_acting_order()
+        raisers = [p.position for p in players
+                   if p.last_action in (Event.BET, Event.RAISE_TO)]
+        rotate = raisers[-1] if raisers else None
+
+        showdown_players = self.accessor.showdown_players(rotate)
+        # this player always reveal
+        players_and_events = [(showdown_players[0], 'reveal')]
+
+        # this offset is to keep the last reveal player index
+        last_reveal_ofs = 0
+        for index in range(len(showdown_players) - 1):
+            player1 = showdown_players[index + 1]
+            player2 = players_and_events[-1 - last_reveal_ofs][0]
+            # if win a sidepot or has better hand than the last reveal, reveal
+            is_winner = player1 in winning_players
+            if is_winner or self.accessor.has_gte_hand(player1, player2):
+                players_and_events.append((player1, 'reveal'))
+                last_reveal_ofs = 0
+            else:
+                # else muck, and keep the last reveal index
+                players_and_events.append((player1, 'muck'))
+                last_reveal_ofs += 1
+
+        for plyr, event in players_and_events:
+            if event == 'reveal':
+                cards_str = ', '.join(c.pretty() for c in plyr.cards)
+                hand_name = cards_str
+                if show_msg:
+                    hand = self.accessor.player_hand(plyr)
+                    hand_name = rankings.hand_to_name_shortdeck(hand)
+                events.append((plyr, Event.REVEAL_HAND, {
+                    'player_id': plyr.id,
+                    'cards': plyr.cards,
+                    'description': hand_name
+                }))
+                if show_msg:
+                    msg = f'{plyr.username} has {cards_str} ({hand_name})'
+                    events.append(self._dealer_msg_event(msg))
+            else:
+                events.append((plyr, Event.MUCK, {'player_id': plyr.id}))
+                msg = f'{plyr.username} mucked'
+                events.append(self._dealer_msg_event(msg))
+
+        return events
 
 class OmahaController(HoldemController):
     expected_tabletype = PL_OMAHA
@@ -2209,7 +2507,14 @@ class HoldemFreezeoutController(FreezeoutController, HoldemController):
 class OmahaFreezeoutController(FreezeoutController, OmahaController):
     pass
 
+class ShortDeckHoldemFreezeoutController(FreezeoutController, ShortDeckHoldemController):
+    pass
 
+
+class ShortDeckOmahaFreezeoutController(FreezeoutController, ShortDeckOmahaController):
+    pass
+class FiveCardOmahaFreezeoutController(FreezeoutController, ShortDeckOmahaController):
+    pass
 class BountyFreezeoutController(FreezeoutController, BountyController):
     pass
 
@@ -2221,11 +2526,29 @@ def controller_type_for_table(table: PokerTable) -> Type[GameController]:
     if table.table_type == NL_HOLDEM and table.tournament is not None:
         return HoldemFreezeoutController
 
+    if table.table_type == SD_NL_HOLDEM and table.tournament is None:
+        return ShortDeckHoldemController
+
+    if table.table_type == SD_NL_HOLDEM and table.tournament is not None:
+        return ShortDeckHoldemFreezeoutController
+
     if table.table_type == PL_OMAHA and table.tournament is None:
         return OmahaController
 
     if table.table_type == PL_OMAHA and table.tournament is not None:
         return OmahaFreezeoutController
+
+    if table.table_type == F_PL_OMAHA and table.tournament is None:
+        return FiveCardOmahaController
+
+    if table.table_type == SD_PL_OMAHA and table.tournament is not None:
+        return FiveCardOmahaFreezeoutController
+
+    if table.table_type == SD_PL_OMAHA and table.tournament is None:
+        return ShortDeckOmahaController
+
+    if table.table_type == SD_PL_OMAHA and table.tournament is not None:
+        return ShortDeckOmahaFreezeoutController
 
     if table.table_type == NL_BOUNTY and table.tournament is None:
         return BountyController

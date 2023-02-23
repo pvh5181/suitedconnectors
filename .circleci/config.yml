@@ -3,42 +3,42 @@ jobs:
   checkout_code:
     machine: true
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo
+            - suitedconnectors-repo
       - checkout
       - save_cache:
-          key: oddslingers-repo
+          key: suitedconnectors-repo
           paths:
-            - ~/oddslingers
+            - ~/suitedconnectors
       - save_cache:
-          key: oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/oddslingers
+            - ~/suitedconnectors
 
   setupjs:
     docker:
       - image: circleci/python:3.7-node
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - oddslingers-core-node_modules-v2@{{ checksum "core/js/package.json" }}
+            - suitedconnectors-core-node_modules-v2@{{ checksum "core/js/package.json" }}
 
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci setupjs | tee /tmp/setupjs.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci setupjs | tee /tmp/setupjs.txt
       
       - save_cache:
 
-          key: oddslingers-core-node_modules-v2@{{ checksum "core/js/package.json" }}
+          key: suitedconnectors-core-node_modules-v2@{{ checksum "core/js/package.json" }}
 
           paths:
             - core/js/node_modules
@@ -50,19 +50,19 @@ jobs:
     docker:
       - image: circleci/python:3.7-node
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
 
-            - oddslingers-core-node_modules-v2@{{ checksum "core/js/package.json" }}
+            - suitedconnectors-core-node_modules-v2@{{ checksum "core/js/package.json" }}
 
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci lintjs | tee /tmp/lintjs.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci lintjs | tee /tmp/lintjs.txt
 
       - store_artifacts:
           path: /tmp/lintjs.txt
@@ -74,18 +74,18 @@ jobs:
     docker:
       - image: circleci/python:3.7-node
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - oddslingers-core-node_modules-v2@{{ checksum "core/js/package.json" }}
+            - suitedconnectors-core-node_modules-v2@{{ checksum "core/js/package.json" }}
 
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci testjs | tee /tmp/testjs.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci testjs | tee /tmp/testjs.txt
 
       - store_artifacts:
           path: /tmp/testjs.txt
@@ -94,20 +94,20 @@ jobs:
     docker:
       - image: circleci/python:3.7-node
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - oddslingers-core-node_modules-v2@{{ checksum "core/js/package.json" }}
+            - suitedconnectors-core-node_modules-v2@{{ checksum "core/js/package.json" }}
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci compjsall | tee /tmp/compjs.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci compjsall | tee /tmp/compjs.txt
 
       - save_cache:
-          key: oddslingers-staticfiles@{{ .Revision }}
+          key: suitedconnectors-staticfiles@{{ .Revision }}
           paths:
             - core/static/js/pages
 
@@ -118,21 +118,21 @@ jobs:
     docker:
       - image: circleci/python:3.7
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
 
-            - oddslingers-core-venv-v1@{{ checksum "core/Pipfile" }}
+            - suitedconnectors-core-venv-v1@{{ checksum "core/Pipfile" }}
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci setuppy | tee /tmp/setuppy.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci setuppy | tee /tmp/setuppy.txt
       
       - save_cache:
-          key: oddslingers-core-venv-v1@{{ checksum "core/Pipfile" }}
+          key: suitedconnectors-core-venv-v1@{{ checksum "core/Pipfile" }}
           paths:
             - core/.venv
 
@@ -143,18 +143,18 @@ jobs:
     docker:
       - image: circleci/python:3.7
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - oddslingers-core-venv-v1@{{ checksum "core/Pipfile" }}
+            - suitedconnectors-core-venv-v1@{{ checksum "core/Pipfile" }}
 
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci lintpy | tee /tmp/lintpy.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci lintpy | tee /tmp/lintpy.txt
 
       - store_artifacts:
           path: /tmp/lintpy.txt
@@ -167,24 +167,24 @@ jobs:
       - image: circleci/python:3.7
       - image: circleci/postgres:12.1
         environment:
-          POSTGRES_USER: oddslingers
-          POSTGRES_DB: oddslingers
+          POSTGRES_USER: suitedconnectors
+          POSTGRES_DB: suitedconnectors
       - image: redis:4.0.6
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - oddslingers-core-venv-v1@{{ checksum "core/Pipfile" }}
+            - suitedconnectors-core-venv-v1@{{ checksum "core/Pipfile" }}
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci testpy | tee /tmp/testpy.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci testpy | tee /tmp/testpy.txt
 
       - store_artifacts:
-          #path: ~/oddslingers/data/debug_dumps
+          #path: ~/suitedconnectors/data/debug_dumps
           path: /tmp/testpy.txt
 
       - store_test_results:
@@ -195,21 +195,21 @@ jobs:
       - image: circleci/python:3.7
       - image: circleci/postgres:12.1
         environment:
-          POSTGRES_USER: oddslingers
-          POSTGRES_DB: oddslingers
+          POSTGRES_USER: suitedconnectors
+          POSTGRES_DB: suitedconnectors
       - image: redis:4.0.6
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - oddslingers-core-venv-v1@{{ checksum "core/Pipfile" }}
+            - suitedconnectors-core-venv-v1@{{ checksum "core/Pipfile" }}
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci integration_tests | tee /tmp/integration_tests.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci integration_tests | tee /tmp/integration_tests.txt
 
       - store_artifacts:
           path: /tmp/integration_tests.txt
@@ -219,26 +219,26 @@ jobs:
       - image: circleci/python:3.7-browsers
       - image: circleci/postgres:12.1
         environment:
-          POSTGRES_USER: oddslingers
-          POSTGRES_DB: oddslingers
+          POSTGRES_USER: suitedconnectors
+          POSTGRES_DB: suitedconnectors
       - image: redis:4.0.6
 
-    working_directory: ~/oddslingers
+    working_directory: ~/suitedconnectors
 
     steps:
       - restore_cache:
           keys:
-            - oddslingers-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - suitedconnectors-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
 
-            - oddslingers-core-venv-v1@{{ checksum "core/Pipfile" }}
+            - suitedconnectors-core-venv-v1@{{ checksum "core/Pipfile" }}
 
       - restore_cache:
           keys:
-            - oddslingers-staticfiles@{{ .Revision }}
+            - suitedconnectors-staticfiles@{{ .Revision }}
       
-      - run: sudo apt install -yq fish; ./bin/oddslingers-ci screenshots | tee /tmp/screenshots.txt
+      - run: sudo apt install -yq fish; ./bin/suitedconnectors-ci screenshots | tee /tmp/screenshots.txt
 
       - store_artifacts:
           path: /tmp/screenshots

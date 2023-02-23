@@ -4,8 +4,8 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 
-from oddslingers.model_utils import BaseModel
-from oddslingers.utils import get_short_uuid
+from suitedconnectors.model_utils import BaseModel
+from suitedconnectors.utils import get_short_uuid
 from poker.models import PokerTable
 
 
@@ -19,7 +19,7 @@ class TicketSource:
 
 TICKET_SOURCE_LABELS = {
     TicketSource.ADMIN: 'Admin Created',
-    TicketSource.EMAIL: 'Email to support@oddslingers.com',
+    TicketSource.EMAIL: 'Email to support@suitedconnectors.com',
     TicketSource.SUPPORT_PAGE: 'Support Page Submition',
     TicketSource.TABLE_REPORT_BUG: 'Report Bug on a Table',
     TicketSource.TABLEBEAT_EXC: 'Tablebeat Exception',

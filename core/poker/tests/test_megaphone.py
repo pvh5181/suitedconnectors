@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from banker.mutations import buy_chips
 from sockets.models import Socket, SocketQuerySet
 
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.mutations import execute_mutations
 
 from poker.subscribers import AnimationSubscriber
 from poker.megaphone import (

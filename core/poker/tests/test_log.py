@@ -4,7 +4,7 @@ from os import remove, path
 
 from django.test import TestCase
 
-from oddslingers.utils import ExtendedEncoder
+from suitedconnectors.utils import ExtendedEncoder
 
 from poker.controllers import HoldemController
 from poker.handhistory import JSONLog, DBLog, MultiLog

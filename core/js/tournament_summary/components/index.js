@@ -23,7 +23,7 @@ export const TournamentSummaryComponent = reduxify({
                    id="react-table-page">
             <TournamentRedirect/>
             <TournamentNotifications/>
-            <h1 className="oddslingers-text-logo">
+            <h1 className="suitedconnectors-text-logo">
                 {is_private && <Icon name='eye-slash' {...tooltip('Private Game')} />}&nbsp;
                 {name}
             </h1>

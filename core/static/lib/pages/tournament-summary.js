@@ -48350,11 +48350,11 @@ exports.Spinner = Spinner;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var ODDSLINGERS_ROOT = exports.ODDSLINGERS_ROOT = __dirname + '/../..'; // oddslingers
+var SUITEDCONNECTORS_ROOT = exports.SUITEDCONNECTORS_ROOT = __dirname + '/../..'; // suitedconnectors
 var GRATER_ROOT = exports.GRATER_ROOT = 'core';
 var JS_ROOT = exports.JS_ROOT = 'core/src';
 
-var DUMPS_FOLDER = exports.DUMPS_FOLDER = ODDSLINGERS_ROOT + '/' + GRATER_ROOT + '/dumps';
+var DUMPS_FOLDER = exports.DUMPS_FOLDER = SUITEDCONNECTORS_ROOT + '/' + GRATER_ROOT + '/dumps';
 
 var STATIC_URL = exports.STATIC_URL = '/static';
 var IMAGES_URL = exports.IMAGES_URL = '/static/images';
@@ -48844,7 +48844,7 @@ var TournamentSummaryComponent = exports.TournamentSummaryComponent = (0, _redux
             _react2.default.createElement(_tournament_redirect.TournamentRedirect, null),
             _react2.default.createElement(
                 'h1',
-                { className: 'oddslingers-text-logo' },
+                { className: 'suitedconnectors-text-logo' },
                 name
             ),
             _react2.default.createElement(
@@ -49375,7 +49375,7 @@ var TournamentRedirectComponent = function (_React$Component) {
                     { className: 'modal-dialog' },
                     _react2.default.createElement(
                         'h1',
-                        { className: 'oddslingers-text-logo' },
+                        { className: 'suitedconnectors-text-logo' },
                         'Tournament will start in',
                         _react2.default.createElement('br', null),
                         this.state.countdown

@@ -6,18 +6,18 @@ echo "$todays_date"
 
 # Backup Prod Logs
 mkdir -p "/media/logs/$todays_date"
-rsync -avz oddslingers-db:"/var/log/oddslingers/" "/media/logs/$todays_date"
-rsync -avz oddslingers-http:"/var/log/oddslingers/" "/media/logs/$todays_date"
+rsync -avz suitedconnectors-db:"/var/log/suitedconnectors/" "/media/logs/$todays_date"
+rsync -avz suitedconnectors-http:"/var/log/suitedconnectors/" "/media/logs/$todays_date"
 
 # Backup Prod Database
 mkdir -p "/media/db/$todays_date"
-ssh oddslingers-db "pg_dump oddslingers > /tmp/oddslingers.sql"
-rsync -avz oddslingers-db:"/tmp/oddslingers.sql" "/media/db/$todays_date"
+ssh suitedconnectors-db "pg_dump suitedconnectors > /tmp/suitedconnectors.sql"
+rsync -avz suitedconnectors-db:"/tmp/suitedconnectors.sql" "/media/db/$todays_date"
 
 # Backup Prod Newsletter emails
-rsync -avz oddslingers-http:"/opt/oddslingers.poker/core/newsletters/" "/media/db/$todays_date/emails"
+rsync -avz suitedconnectors-http:"/opt/suitedconnectors.poker/core/newsletters/" "/media/db/$todays_date/emails"
 
 # # Backup Puppetmaster Database
 # mkdir -p "/media/puppetmaster/$todays_date"
-# ssh oddslingers-puppetmaster "pg_dump puppetmaster > /tmp/puppetmaster.sql"
-# rsync -avz oddslingers-puppetmaster:"/tmp/puppetmaster.sql" "/media/puppetmaster/$todays_date"
+# ssh suitedconnectors-puppetmaster "pg_dump puppetmaster > /tmp/puppetmaster.sql"
+# rsync -avz suitedconnectors-puppetmaster:"/tmp/puppetmaster.sql" "/media/puppetmaster/$todays_date"

@@ -9,11 +9,11 @@ from django.conf import settings
 from django.shortcuts import render
 from django.views.decorators.clickjacking import xframe_options_exempt
 
-from oddslingers.tasks import (
+from suitedconnectors.tasks import (
     track_analytics_event, async_start_tablebeat,
 )
-from oddslingers.utils import sanitize_html, ExtendedEncoder
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import sanitize_html, ExtendedEncoder
+from suitedconnectors.mutations import execute_mutations
 
 from sidebets.views import get_sidebets
 

@@ -6,7 +6,7 @@ from django.conf import settings
 import django.contrib.postgres.fields.jsonb
 from django.db import migrations, models
 import django.db.models.deletion
-import oddslingers.model_utils
+import suitedconnectors.model_utils
 import uuid
 
 
@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
             ],
-            bases=(models.Model, oddslingers.model_utils.DispatchHandlerModel),
+            bases=(models.Model, suitedconnectors.model_utils.DispatchHandlerModel),
         ),
         migrations.CreateModel(
             name='PokerTable',
@@ -106,7 +106,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.CharField(default='Homepage Table', max_length=256, unique=True)),
                 ('is_mock', models.BooleanField(default=False)),
-                ('table_type', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
+                ('table_type', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', "Five Card Pot Limit Omaha"),  ('SDNLHE', "No Limit Hold 'em"), ('SDPLO', 'Pot Limit Omaha'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
                 ('ante', models.DecimalField(blank=True, decimal_places=2, max_digits=20, null=True)),
                 ('min_buyin', models.DecimalField(decimal_places=2, default=100, max_digits=20)),
                 ('max_buyin', models.DecimalField(decimal_places=2, default=400, max_digits=20)),
@@ -118,7 +118,7 @@ class Migration(migrations.Migration):
                 ('bb_idx', models.IntegerField(blank=True, null=True)),
                 ('deck_str', models.CharField(blank=True, max_length=312, null=True)),
                 ('board_str', models.CharField(blank=True, max_length=256, null=True)),
-                ('precision', models.IntegerField(default=0)),
+                ('precision', models.IntegerField(default=2)),
                 ('hand_number', models.IntegerField(default=0)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
@@ -132,14 +132,14 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model, oddslingers.model_utils.DispatchHandlerModel),
+            bases=(models.Model, suitedconnectors.model_utils.DispatchHandlerModel),
         ),
         migrations.CreateModel(
             name='PokerTournament',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.CharField(default='Tournament', max_length=256)),
-                ('game_variant', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
+                ('game_variant', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('SDNLHE', "No Limit Hold 'em"), ('SDPLO', 'Pot Limit Omaha'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
                 ('buyin_amt', models.DecimalField(decimal_places=2, max_digits=20)),
                 ('start_time', models.DateTimeField(null=True)),
             ],

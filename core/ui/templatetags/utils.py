@@ -5,8 +5,8 @@ from django import template
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.utils.safestring import mark_safe
 
-from oddslingers.utils import sanitize_html, ExtendedEncoder
-from oddslingers.middleware.http2_middleware import record_file_to_preload
+from suitedconnectors.utils import sanitize_html, ExtendedEncoder
+from suitedconnectors.middleware.http2_middleware import record_file_to_preload
 
 register = template.Library()
 

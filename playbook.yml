@@ -1,10 +1,10 @@
 - 
-  name: Install oddslingers
+  name: Install suitedconnectors
   hosts: localhost
   vars:
           download_code_condition: "{{ download_code | default(false) }}"
           init_db_condition: "{{ init_db | default(true) }}"
-          oddslingers_git_repo: https://github.com/monadical-sas/oddslingers.poker.git
+          suitedconnectors_git_repo: https://github.com/
   tasks:
          - name: Add key postgres repo
            apt_key:
@@ -77,8 +77,8 @@
 
          - name: Download code
            git:
-            repo: "{{ oddslingers_git_repo }}"
-            dest: "{{ oddslingers_root }}"
+            repo: "{{ suitedconnectors_git_repo }}"
+            dest: "{{ suitedconnectors_root }}"
            become: true
            when: download_code_condition|bool
 
@@ -98,17 +98,17 @@
             PIPENV_VENV_IN_PROJECT: "enabled"
            command: "pipenv install --dev"
            args:
-            chdir: "{{ oddslingers_root }}/core"
+            chdir: "{{ suitedconnectors_root }}/core"
            become: true
 
          - name: Run yarn install
            yarn:
-            path: "{{ oddslingers_root }}/core/js"
+            path: "{{ suitedconnectors_root }}/core/js"
            become: true
 
          - name: Change owner .venv
            file:
-            path: "{{ oddslingers_root }}/core/.venv"
+            path: "{{ suitedconnectors_root }}/core/.venv"
             state: directory
             recurse: yes
             owner: "{{ sudo_user }}"
@@ -117,7 +117,7 @@
 
          - name: Change owner node_modules
            file:
-            path: "{{ oddslingers_root }}/core/js/node_modules"
+            path: "{{ suitedconnectors_root }}/core/js/node_modules"
             state: directory
             recurse: yes
             owner: "{{ sudo_user }}"
@@ -127,12 +127,12 @@
          - name: Set host file
            lineinfile:
             path: /etc/hosts
-            line: 127.0.0.1     oddslingers.l 
+            line: 127.0.0.1     suitedconnectors.l 
            become: true
 
          - name: Create data directory
            file:
-             path: "{{ oddslingers_root }}/data"
+             path: "{{ suitedconnectors_root }}/data"
              state: directory
              owner: "{{ sudo_user }}"
              group: "{{ sudo_user }}"
@@ -146,14 +146,14 @@
 
          - name: Create a symbolic link
            file:
-            src: "{{ oddslingers_root }}/etc/supervisor/ubuntu-dev.conf"
+            src: "{{ suitedconnectors_root }}/etc/supervisor/ubuntu-dev.conf"
             dest: /etc/supervisor/supervisord.conf
             state: link
            become: true
 
          - name: Create database directory
            file:
-             path: "{{ oddslingers_root }}/data/postgres"
+             path: "{{ suitedconnectors_root }}/data/postgres"
              state: directory
              recurse: yes
              owner: postgres
@@ -163,13 +163,13 @@
          - name: Init DB
            become: yes
            become_user: postgres
-           command: "/usr/lib/postgresql/12/bin/initdb -D \"{{ oddslingers_root }}/data/postgres\""
+           command: "/usr/lib/postgresql/12/bin/initdb -D \"{{ suitedconnectors_root }}/data/postgres\""
            when: init_db_condition|bool
 
          - name: Start Postgres
            become: yes
            become_user: postgres
-           command: "/usr/lib/postgresql/12/bin/pg_ctl -D \"{{ oddslingers_root }}/data/postgres\" start"
+           command: "/usr/lib/postgresql/12/bin/pg_ctl -D \"{{ suitedconnectors_root }}/data/postgres\" start"
            when: init_db_condition|bool
 
          - name: Create Postgres User
@@ -198,7 +198,7 @@
 
          - name: Write db config in a env file
            lineinfile:
-            path: "{{ oddslingers_root }}/env/secrets.env"
+            path: "{{ suitedconnectors_root }}/env/secrets.env"
             line: "{{ item }}"
             create: yes
            loop:
@@ -210,7 +210,7 @@
 
          - name: Create logs folder
            file:
-             path: "{{ oddslingers_root }}/data/logs"
+             path: "{{ suitedconnectors_root }}/data/logs"
              state: directory
              owner: "{{ sudo_user }}"
              group: "{{ sudo_user }}"
@@ -218,7 +218,7 @@
 
          - name: Delete Postgres process lock
            file:
-            path: "{{ oddslingers_root }}/data/postgres/postmaster.pid"
+            path: "{{ suitedconnectors_root }}/data/postgres/postmaster.pid"
             state: absent
            become: true
 

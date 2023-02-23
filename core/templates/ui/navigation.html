@@ -18,19 +18,19 @@
             </button>
 
             <!-- Navbar Left: Logo -->
-            <a class="navbar-brand oddslingers-text-logo" href="{% url 'Home' %}">
+            <a class="navbar-brand suitedconnectors-text-logo" href="{% url 'Home' %}">
                 <picture>
                     {% theme_option light_option='black' dark_option='white' as option_img %}
                     <source srcSet="/static/images/logo-{{option_img}}.webp" type="image/webp"/>
                     <img src="{% static 'images/logo-'|add:option_img|add:'.png' %}" alt="Logo"/>
                 </picture>
-                <span id="logo-text"><span>Odd</span>Slingers</span>
+                <span id="logo-text"><span>Suited</span>Connectors</span>
             </a>
         </div>
 
         {% if DEBUG %}
             <style>
-                /*.navbar-brand.oddslingers-text-logo:first-letter {*/
+                /*.navbar-brand.suitedconnectors-text-logo:first-letter {*/
                     /*color: green !important;*/
                 /*}*/
             </style>
@@ -134,12 +134,12 @@
                                             <small style="color: gray">Development</small><br/>
                                         </a>
                                     </li>
-                                    <li><a href="https://circleci.com/gh/monadical-sas/oddslingers.poker">
+                                    <li><a href="https://circleci.com/gh/monadical-sas/suitedconnectors.poker">
                                         <i class="fa fa-circle-o"></i>&nbsp;&nbsp; CircleCI</a></li>
-                                    <li><a href="https://github.com/monadical-sas/oddslingers.poker">
-                                        <i class="fa fa-github"></i>&nbsp;&nbsp; Oddslingers</a></li>
-                                    <li><a href="https://github.com/monadical-sas">
-                                        <i class="fa fa-github"></i>&nbsp;&nbsp; Monadical SAS</a></li>
+                                    <li><a href="https://github.com/monadical-sas/suitedconnectors.poker">
+                                        <i class="fa fa-github"></i>&nbsp;&nbsp; SuitedConnectors</a></li>
+                                    <li><a href="https://github.com/">
+                                        <i class="fa fa-github"></i>&nbsp;&nbsp; github</a></li>
 
 
                                     <li role="separator" class="divider"></li>
@@ -150,9 +150,9 @@
                                     </li>
                                     <li><a href="/admin/">
                                         <i class="fa fa-database"></i>&nbsp;&nbsp; Django Admin: {{ENVIRONMENT}}</a></li>
-                                    <li><a href="http://oddslingers.com:9001">
+                                    <li><a href="http://suitedconnectors.com:9001">
                                         <i class="fa fa-table"></i>&nbsp;&nbsp; Supervisord</a></li>
-                                    <li><a href="https://sentry.io/oddslingers/oddslingers/">
+                                    <li><a href="https://sentry.io/suitedconnectors/suitedconnectors/">
                                         <i class="fa fa-bug"></i>&nbsp;&nbsp; Sentry
                                         {% if ENABLE_SENTRY %}
                                             (<b style="color: green">on</b>)

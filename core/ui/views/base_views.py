@@ -6,8 +6,8 @@ from django.template import loader
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse
 
-from oddslingers.models import UserSession
-from oddslingers.utils import ExtendedEncoder
+from suitedconnectors.models import UserSession
+from suitedconnectors.utils import ExtendedEncoder
 
 from poker.constants import TournamentStatus
 
@@ -110,7 +110,7 @@ class BaseView(View):
             # SHA is used to tell sentry which release is running on prod
             'GIT_SHA': settings.GIT_SHA,
             # refers to which set of database settings are used (aka which env is active)
-            'ENVIRONMENT': settings.ODDSLINGERS_ENV,
+            'ENVIRONMENT': settings.SUITEDCONNECTORS_ENV,
             'TIME_ZONE': settings.TIME_ZONE,
             'LANGUAGE_CODE': settings.LANGUAGE_CODE,
             'ENABLE_SENTRY': settings.ENABLE_SENTRY,
@@ -177,7 +177,7 @@ class PublicReactView(BaseView):
             # used to tell sentry which release is running on prod
             'GIT_SHA': settings.GIT_SHA,
             # refers to which set of database settings are used (aka which env is active)
-            'ENVIRONMENT': settings.ODDSLINGERS_ENV,
+            'ENVIRONMENT': settings.SUITEDCONNECTORS_ENV,
             'TIME_ZONE': settings.TIME_ZONE,
             'SHOW_VIDEO_STREAMS': settings.SHOW_VIDEO_STREAMS,
             'SIGNUP_BONUS': settings.SIGNUP_BONUS,

@@ -4,15 +4,15 @@ from django.conf import settings
 from django.db import transaction
 from django.contrib.auth import get_user_model
 
-from oddslingers.utils import ANSI
-from oddslingers.tasks import track_analytics_event
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import ANSI
+from suitedconnectors.tasks import track_analytics_event
+from suitedconnectors.mutations import execute_mutations
 
 from banker.utils import buyins_for_table
 from banker.mutations import buy_chips, create_transfer
 
 from sockets.handlers import RoutedSocketHandler
-from oddslingers.tasks import ticket_from_table_report_bug
+from suitedconnectors.tasks import ticket_from_table_report_bug
 
 from ..tablebeat import (
     queue_tablebeat_dispatch, start_tablebeat, stop_tablebeat,

@@ -17,9 +17,9 @@ from poker.constants import (
     THRESHOLD_BB_FOR_BOTS, THRESHOLD_BB_EMAIL_VERIFIED
 )
 
-from oddslingers.mutations import execute_mutations
-from oddslingers.tasks import track_analytics_event
-from oddslingers.utils import sanitize_html, require_login
+from suitedconnectors.mutations import execute_mutations
+from suitedconnectors.tasks import track_analytics_event
+from suitedconnectors.utils import sanitize_html, require_login
 
 from .base_views import PublicReactView
 

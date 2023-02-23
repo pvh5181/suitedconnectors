@@ -2,24 +2,35 @@ import pytz
 from os import path
 from datetime import datetime
 
-from oddslingers.settings import BASE_DIR
-from oddslingers.utils import StrBasedEnum
+from suitedconnectors.settings import BASE_DIR
+from suitedconnectors.utils import StrBasedEnum
 
 # GAME TYPES
 NL_HOLDEM = 'NLHE'
 PL_OMAHA = 'PLO'
 NL_BOUNTY = 'BNTY'
+F_PL_OMAHA = 'FPLO'
+SD_PL_OMAHA = 'SDPLO'
+SD_NL_HOLDEM = 'SDNLHE'
 
 TABLE_TYPES = (
     (NL_HOLDEM, 'No Limit Hold \'em'),
     (PL_OMAHA, 'Pot Limit Omaha'),
     (NL_BOUNTY, 'No Limit Bounty'),
+    (F_PL_OMAHA, 'Five Card Pot Limit Omaha'),
+    (SD_NL_HOLDEM, 'Short Deck No Limit Hold \'em'),
+    (SD_PL_OMAHA, 'Short Deck Pot Limit Omaha'),
+    #(FIVE_STUD, 'Five Card Stud'),
+    #(SEVEN_STUD, 'Seven Card Stud'),
 )
 
 NUM_HOLECARDS = {
     NL_HOLDEM: 2,
     NL_BOUNTY: 2,
     PL_OMAHA: 4,
+    SD_NL_HOLDEM: 2,
+    SD_PL_OMAHA: 4,
+    F_PL_OMAHA: 5,
 }
 
 ANALYTIC_HAND_THRESHOLDS = (1000, 2000, 5000, 10000, 25000, 50000, 100000)

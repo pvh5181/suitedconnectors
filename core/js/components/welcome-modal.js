@@ -25,7 +25,7 @@ export const WelcomeModal = () => (
         <Modal bsSize="small" aria-labelledby="contained-modal-title-sm" show id="welcome-modal" onClick={hideWelcomeModal}>
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-sm" style={{fontFamily:'Bungee'}}>
-                    Welcome to Oddslingers!
+                    Welcome to SuitedConnectors!
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

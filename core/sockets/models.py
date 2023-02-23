@@ -10,9 +10,9 @@ from django.utils import timezone
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.sessions.models import Session
 
-from oddslingers.utils import (to_json_str, debug_print_io, log_io_message,
+from suitedconnectors.utils import (to_json_str, debug_print_io, log_io_message,
                           add_timestamp_and_hash)
-from oddslingers.model_utils import BaseModel
+from suitedconnectors.model_utils import BaseModel
 
 from .constants import (
     PING_TYPE,

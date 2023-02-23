@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='supportticket',
             name='source',
-            field=models.IntegerField(choices=[(0, 'Admin Created'), (1, 'Email to support@oddslingers.com'), (2, 'Support Page Submition'), (3, 'Report Bug on a Table'), (4, 'Tablebeat Exception'), (5, 'Botbeat Exception')], default=0),
+            field=models.IntegerField(choices=[(0, 'Admin Created'), (1, 'Email to support@suitedconnectors.com'), (2, 'Support Page Submition'), (3, 'Report Bug on a Table'), (4, 'Tablebeat Exception'), (5, 'Botbeat Exception')], default=0),
         ),
     ]

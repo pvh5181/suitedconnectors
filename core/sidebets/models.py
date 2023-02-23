@@ -3,7 +3,7 @@ from django.conf import settings
 
 from banker.deprecated import create_transfer
 
-from oddslingers.model_utils import BaseModel
+from suitedconnectors.model_utils import BaseModel
 
 from poker.constants import SIDEBET_STATUS
 from poker.models import Player, PokerTable

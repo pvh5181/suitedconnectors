@@ -23350,7 +23350,7 @@ var _Col2 = _interopRequireDefault(_Col);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var style = '\n    h1.oddslingers-text-logo {\n        text-align: left;\n        font-size: 66px;\n    }\n    h2 {\n        font-weight: 200;\n        color: #333;\n    }\n    hr {\n        margin-top: 12px;\n        margin-bottom: 10px;\n    }\n    .tables-alert {\n        margin: auto;\n        width: 450px;\n        text-align: center;\n    }\n    .tables-actions {\n        float: right;\n        margin-top: -50px;\n    }\n    .table-grid {\n        text-align: center;\n    }\n    .table-grid .table-thumbnail {\n        border: 3px solid #5cb85b;\n        display: inline-block;\n        text-align: center;\n        float: none;\n        vertical-align: top;\n        margin-bottom: 10px;\n        margin-right: 10px;\n        margin-left: 10px;\n    }\n    @media (max-width: 665px) {\n        .table-thumbnail {\n            width: 94%;\n        }\n    }\n    @media (max-width: 336px) {\n        h1.oddslingers-text-logo {\n            margin-top: -20px;\n        }\n        .table-thumbnail {\n            width: 94%;\n        }\n    }\n'; /* global $ */
+var style = '\n    h1.suitedconnectors-text-logo {\n        text-align: left;\n        font-size: 66px;\n    }\n    h2 {\n        font-weight: 200;\n        color: #333;\n    }\n    hr {\n        margin-top: 12px;\n        margin-bottom: 10px;\n    }\n    .tables-alert {\n        margin: auto;\n        width: 450px;\n        text-align: center;\n    }\n    .tables-actions {\n        float: right;\n        margin-top: -50px;\n    }\n    .table-grid {\n        text-align: center;\n    }\n    .table-grid .table-thumbnail {\n        border: 3px solid #5cb85b;\n        display: inline-block;\n        text-align: center;\n        float: none;\n        vertical-align: top;\n        margin-bottom: 10px;\n        margin-right: 10px;\n        margin-left: 10px;\n    }\n    @media (max-width: 665px) {\n        .table-thumbnail {\n            width: 94%;\n        }\n    }\n    @media (max-width: 336px) {\n        h1.suitedconnectors-text-logo {\n            margin-top: -20px;\n        }\n        .table-thumbnail {\n            width: 94%;\n        }\n    }\n'; /* global $ */
 
 var BetThumbnail = exports.BetThumbnail = function BetThumbnail(_ref) {
     var bet = _ref.bet,
@@ -23677,7 +23677,7 @@ var BetList = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'h1',
-                    { className: 'oddslingers-text-logo' },
+                    { className: 'suitedconnectors-text-logo' },
                     'Sidebets ',
                     _react2.default.createElement(ReloadButton, null)
                 ),
@@ -23691,7 +23691,7 @@ var BetList = function (_React$Component) {
             _react2.default.createElement('br', null),
             _react2.default.createElement(
                 'h1',
-                { className: 'oddslingers-text-logo text-center' },
+                { className: 'suitedconnectors-text-logo text-center' },
                 'Popular Tables'
             ),
             _react2.default.createElement('hr', null),

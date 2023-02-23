@@ -6,9 +6,9 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.db.models import Sum
 
-from oddslingers.utils import camelcase_to_capwords
-from oddslingers.tasks import track_analytics_event
-from oddslingers.mutations import MutationList, execute_mutations
+from suitedconnectors.utils import camelcase_to_capwords
+from suitedconnectors.tasks import track_analytics_event
+from suitedconnectors.mutations import MutationList, execute_mutations
 
 from banker.mutations import create_transfer
 

@@ -29,7 +29,7 @@ success " 🔵    Setup: Development Machine w/ supervisord (Ubuntu >= 17.04)"
         error "Not on Linux!: $(uname)"
         exit 1
     fi
-    ln -fs "$REPO_DIR" /opt/oddslingers.poker
+    ln -fs "$REPO_DIR" /opt/suitedconnectors.poker
 echo "       Installing from $REPO_DIR..."
 
 info "[1/9] Installing system dependencies..."
@@ -55,15 +55,15 @@ echo "           Python, postgresql, redis, npm, nginx, (and other utils)"
 
 info "[2/9] Install Oddslingers utility commands..."
     echo "      Add the following to your \$PATH, then press enter once finished:"
-    echo "           /opt/oddslingers.poker/bin"
-    bash -c "which oddslingers" | grep -q /opt/oddslingers.poker/bin || read
-    if bash -c "which oddslingers" | grep -q /opt/oddslingers.poker/bin; then
+    echo "           /opt/suitedconnectors.poker/bin"
+    bash -c "which suitedconnectors" | grep -q /opt/suitedconnectors.poker/bin || read
+    if bash -c "which suitedconnectors" | grep -q /opt/suitedconnectors.poker/bin; then
         true
     else
-        echo "/opt/bin/oddslingers was not found in your \$PATH, please set it and run this script again"
+        echo "/opt/bin/suitedconnectors was not found in your \$PATH, please set it and run this script again"
         exit 1
     fi
-success "   √   'oddslingers' command now points to $(bash -c "which oddslingers") from your \$PATH"
+success "   √   'suitedconnectors' command now points to $(bash -c "which suitedconnectors") from your \$PATH"
 
 
 info "[3/9] Seting up pipenv and yarn..."
@@ -86,10 +86,10 @@ info "[5/9] Installing js dependencies..."
 success "   √   JS requirements are installed: package.json "
 
 info "[6/9] Linking config files..."
-    sudo bash -c "echo '127.0.0.1     oddslingers.l $DEFAULT_HOST' >> /etc/hosts"
+    sudo bash -c "echo '127.0.0.1     suitedconnectors.l $DEFAULT_HOST' >> /etc/hosts"
     rm -f /etc/supervisor/supervisord.conf
     ln -fs "$REPO_DIR/etc/supervisor/ubuntu-dev.conf" /etc/supervisor/supervisord.conf
-success "   √   Generated SSL certs and set oddslingers.l to 127.0.0.1"
+success "   √   Generated SSL certs and set suitedconnectors.l to 127.0.0.1"
 
 info "[7/9] Initializing PostgreSQL database..."
     POSTGRES_PASSWORD=$(openssl rand -base64 14)
@@ -127,12 +127,12 @@ success "   √   GeoIP database updated: data/geoip"
 
 
 success " ✅    Done. See README.md for next steps."
-    echo "       - Dev commands can be run using the 'oddslingers' command:"
-    echo "           e.g. oddslingers start"
-    echo "                oddslingers compjs tables.js"
-    echo "                oddslingers resetdb"
+    echo "       - Dev commands can be run using the 'suitedconnectors' command:"
+    echo "           e.g. suitedconnectors start"
+    echo "                suitedconnectors compjs tables.js"
+    echo "                suitedconnectors resetdb"
     echo "       - Config is stored in env/secrets.env and env/dev.env"
-    echo "       - Data is stored in oddslingers.poker/data/"
+    echo "       - Data is stored in suitedconnectors.poker/data/"
 
 supervisorctl reload all
 sleep 5

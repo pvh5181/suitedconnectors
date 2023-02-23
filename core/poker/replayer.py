@@ -18,7 +18,7 @@ from poker.models import MockPokerTable, MockPlayer, Player, HandHistory
 from poker.megaphone import gamestate_json
 from poker.subscribers import LogSubscriber
 
-from oddslingers.utils import DoesNothing, to_json_str
+from suitedconnectors.utils import DoesNothing, to_json_str
 
 
 class HandHistoryReplayer:

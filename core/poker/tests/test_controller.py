@@ -8,9 +8,9 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from oddslingers.utils import DoesNothing, fnv_hash
-from oddslingers.tests.test_utils import TimezoneMocker
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import DoesNothing, fnv_hash
+from suitedconnectors.tests.test_utils import TimezoneMocker
+from suitedconnectors.mutations import execute_mutations
 
 from poker.models import PokerTable, Player, ChatLine, ChatHistory
 from poker.cards import Card, Deck, INDICES

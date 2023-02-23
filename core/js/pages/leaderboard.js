@@ -106,9 +106,9 @@ class UserList extends React.Component {
     }
     onInvite() {
         const invite_email = $('#new-user-email').val()
-        const subject = 'Come play poker with me on Oddslingers!'
-        const body = `I invite you to join me for a game of poker on oddslingers.com!\n\
-                      \nYou can sign up here: https://oddslingers.com/accounts/signup/\n\
+        const subject = 'Come play poker with me on SuitedConnectors!'
+        const body = `I invite you to join me for a game of poker on suitedconnectors.com!\n\
+                      \nYou can sign up here: https://suitedconnectors.com/accounts/signup/\n\
                       \n--From ${global.user.username}`
         global.open(`mailto:${invite_email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
     }

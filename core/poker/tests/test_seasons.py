@@ -6,10 +6,10 @@ from django.conf import settings
 from django.test import TestCase, override_settings
 from django.contrib.auth import get_user_model
 
-from oddslingers.tests.test_utils import TimezoneMocker
-from oddslingers.models import UserStats, UserBalance
-from oddslingers.subscribers import UserStatsSubscriber
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.tests.test_utils import TimezoneMocker
+from suitedconnectors.models import UserStats, UserBalance
+from suitedconnectors.subscribers import UserStatsSubscriber
+from suitedconnectors.mutations import execute_mutations
 
 from banker.models import BalanceTransfer
 from banker.mutations import buy_chips

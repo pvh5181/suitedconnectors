@@ -4,7 +4,7 @@ from collections import defaultdict, OrderedDict
 from django.utils import timezone
 from django.conf import settings
 
-from oddslingers.utils import json_strptime, ExtendedEncoder, to_json_str
+from suitedconnectors.utils import json_strptime, ExtendedEncoder, to_json_str
 
 from poker.constants import (Event, TABLE_SUBJECT_REPR, SIDE_EFFECT_SUBJ,
                              PLAYER_API)

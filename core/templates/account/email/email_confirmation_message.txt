@@ -4,7 +4,7 @@
 
 Hello from OddSlingers!
 
-If you are '{{ user_display }}' on OddSlingers.com and you want to add this e-mail address to your account, click the verification link below.  If you were not expecting this email, ignore it and no action will be taken. You can also reply to this email or contact support with any questions: https://oddslingers.com/support
+If you are '{{ user_display }}' on OddSlingers.com and you want to add this e-mail address to your account, click the verification link below.  If you were not expecting this email, ignore it and no action will be taken. You can also reply to this email or contact support with any questions: https://suitedconnectors.com/support
 
 To verify this email for your account, click this activation link:
 

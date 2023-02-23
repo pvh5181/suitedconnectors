@@ -32,8 +32,8 @@
             "status_code": 200,
             "json": {
                 "url_name": "Table",
-                "url": "http://oddslingers.l/table/f9f6ee13/",
-                "domain": "oddslingers.l",
+                "url": "http://suitedconnectors.l/table/f9f6ee13/",
+                "domain": "suitedconnectors.l",
                 "view": "ui.views.pages.Table",
                 "DEBUG": true,
                 "GIT_SHA": "b74828e896ae32f51d015816123a15c85092bb6c",
@@ -174,7 +174,7 @@
             "TIMESTAMP": 1502238405249,
             "SEQ_NUM": 0,
             "page": "Table | Oddslingers",
-            "url": "https://oddslingers.l/table/f9f6ee13/",
+            "url": "https://suitedconnectors.l/table/f9f6ee13/",
             "component": "pages/table.js",
             "type": "HELLO"
         },

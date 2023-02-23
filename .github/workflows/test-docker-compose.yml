@@ -13,10 +13,10 @@ jobs:
       - name: Start docker-compose stack
         run: |
           docker-compose up -d
-      - name: Add oddslingers.l to hosts
+      - name: Add suitedconnectors.l to hosts
         run: |
-          sudo bash -c 'echo "127.0.0.1  oddslingers.l" >> /etc/hosts'
+          sudo bash -c 'echo "127.0.0.1  suitedconnectors.l" >> /etc/hosts'
       - name: Curl open platform
         run: |
           sleep 60
-          curl -I http://oddslingers.l/
+          curl -I http://suitedconnectors.l/

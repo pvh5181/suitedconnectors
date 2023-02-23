@@ -35,13 +35,13 @@
  - [ ] Build is passing
  - [ ] Was playtested when up-to-date with current `dev`
  - [ ] Component has been playtested locally
-     - [ ] followed the [playtesting guide](https://docs.oddslingers.com/playtesting-checklist) as necessary
+     - [ ] followed the [playtesting guide](https://docs.suitedconnectors.com/playtesting-checklist) as necessary
      - [ ] including logged in/out
      - [ ] including dark / light
      - [ ] including different device sizes
      - [ ] including all major browsers
  - [ ] Component has been playtested on beta
-     - [ ] followed the [playtesting guide](https://docs.oddslingers.com/playtesting-checklist) as necessary
+     - [ ] followed the [playtesting guide](https://docs.suitedconnectors.com/playtesting-checklist) as necessary
      - [ ] including logged in/out
      - [ ] including dark / light
      - [ ] including different device sizes

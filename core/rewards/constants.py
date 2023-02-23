@@ -79,7 +79,7 @@ NO_REWARD_BADGES = {
     # This have its own reward amount
     'completed': 'Earn all the easily obtained badges',
     # === bad behavior shame badges ===
-    'black_hat': 'Attempt a technical exploit against Oddslingers',
+    'black_hat': 'Attempt a technical exploit against SuitedConnectors',
     'potty_mouth': 'Attempted to use swear words on the site',
 
     # === Tournament badges ===

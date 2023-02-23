@@ -1,13 +1,13 @@
 [run]
-source = oddslingers,poker,sockets,banker,ui,rewards
+source = suitedconnectors,poker,sockets,banker,ui,rewards
 concurrency =
     multiprocessing
     thread
 
 [paths]
-oddslingers =
-    core/oddslingers
-    oddslingers
+suitedconnectors =
+    core/suitedconnectors
+    suitedconnectors
 poker =
     core/poker
     poker
@@ -26,7 +26,7 @@ rewards =
 
 [report]
 omit =
-    */oddslingers/__init__.py
+    */suitedconnectors/__init__.py
     */migrations/*
     */management/*
     */settings_*.py

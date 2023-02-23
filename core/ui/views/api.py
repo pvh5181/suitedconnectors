@@ -8,9 +8,9 @@ from django.http import QueryDict
 from django.conf import settings
 from django.http import FileResponse
 
-from oddslingers.utils import ANSI, sanitize_html
-from oddslingers.tasks import send_invite_email
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import ANSI, sanitize_html
+from suitedconnectors.tasks import send_invite_email
+from suitedconnectors.mutations import execute_mutations
 
 from ui.views.accounts import get_profile_pictures
 

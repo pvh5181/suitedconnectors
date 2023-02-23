@@ -11,9 +11,9 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-from oddslingers.utils import ANSI, debug_print_io
-from oddslingers.system import find_process, stop_process
-from oddslingers.tasks import track_analytics_event
+from suitedconnectors.utils import ANSI, debug_print_io
+from suitedconnectors.system import find_process, stop_process
+from suitedconnectors.tasks import track_analytics_event
 from support.artifacts import assemble_tablebeat_info
 from support.incidents import ticket_from_tablebeat_exception
 

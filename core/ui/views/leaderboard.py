@@ -8,9 +8,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.conf import settings
 
-from oddslingers.utils import ExtendedEncoder, sanitize_html
-from oddslingers.models import User
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import ExtendedEncoder, sanitize_html
+from suitedconnectors.models import User
+from suitedconnectors.mutations import execute_mutations
 
 from rewards.models import Badge
 from banker.utils import get_timing_kwargs

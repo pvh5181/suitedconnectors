@@ -39,7 +39,7 @@ class TournamentRedirectComponent extends React.Component {
             <div className="fade modal-backdrop in"></div>
             <div role="dialog" tabIndex="-1" className="fade in modal" style={{"display": "block"}}>
                 <div className="modal-dialog">
-                    <h1 className="oddslingers-text-logo">
+                    <h1 className="suitedconnectors-text-logo">
                         Tournament will start in<br/>
                         {countdown >= 0 ? countdown : 0}
                     </h1>

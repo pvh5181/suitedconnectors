@@ -13,9 +13,9 @@ from django.urls import reverse
 
 from banker.mutations import buy_chips, create_transfer
 
-from oddslingers.mutations import execute_mutations
-from oddslingers.models import User
-from oddslingers.utils import debug_print_info
+from suitedconnectors.mutations import execute_mutations
+from suitedconnectors.models import User
+from suitedconnectors.utils import debug_print_info
 
 from poker.constants import (
     PlayingState, TABLE_TYPES, HIDE_TABLES_AFTER_N_HANDS,
@@ -103,7 +103,7 @@ def private_games(user: User) -> QuerySet:
 
 def system_created_games(games: QuerySet=None) -> QuerySet:
     """
-    Get all public tables that were automatically created by OddSlingers
+    Get all public tables that were automatically created by SuitedConnectors
     """
     return (games or public_games()).filter(created_by=None)
 

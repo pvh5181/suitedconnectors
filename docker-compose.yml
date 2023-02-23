@@ -19,9 +19,9 @@ services:
     links: 
       - "django"
     volumes:
-      - ./etc/nginx/oddslingers-docker-compose.conf:/etc/nginx/nginx.conf
-      - ./data/certs:/opt/oddslingers.poker/data/certs
-      - ./core:/opt/oddslingers.poker/core
+      - ./etc/nginx/suitedconnectors-docker-compose.conf:/etc/nginx/nginx.conf
+      - ./data/certs:/opt/suitedconnectors.poker/data/certs
+      - ./core:/opt/suitedconnectors.poker/core
 
   postgres:
     image: postgres:12-alpine
@@ -43,10 +43,10 @@ services:
 
   django:
     build: .
-    image: oddslingers:django_base
+    image: suitedconnectors:django_base
     env_file:
       - .env
-    working_dir: /opt/oddslingers.poker/core/
+    working_dir: /opt/suitedconnectors.poker/core/
     command: ./manage.py runserver --http_timeout 120 0.0.0.0:8000 
     stdin_open: true
     tty: true
@@ -54,7 +54,7 @@ services:
       - postgres
       - redis
     environment:
-      ODDSLINGERS_ENV: DEV
+      SUITEDCONNECTORS_ENV: DEV
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
       IS_DOCKER: 1
@@ -64,36 +64,36 @@ services:
     expose: 
       - 8000
     volumes:
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./bin:/opt/oddslingers.poker/bin
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./bin:/opt/suitedconnectors.poker/bin
 
   webpack:
     #image: node:8-alpine
     build:
       context: . 
       dockerfile: ./Dockerfile.webpack
-    image: oddslingers:webpack
+    image: suitedconnectors:webpack
     command: sh -c "(webpack --mode development --watch --info-verbosity verbose & node-sass-chokidar --watch scss/ -o ../static/css 2>&1  &)| cat"
     stdin_open: true
     tty: true
     environment:
-      ODDSLINGERS_ENV: DEV
+      SUITEDCONNECTORS_ENV: DEV
     volumes:
-      - ./core/js:/opt/oddslingers.poker/core/js
-      - ./core/static:/opt/oddslingers.poker/core/static
+      - ./core/js:/opt/suitedconnectors.poker/core/js
+      - ./core/static:/opt/suitedconnectors.poker/core/static
       # Hide local node_modules
       - ./core/js/node_modules:/src/node_modules
       # Add dumps for UI tests
-      - ./core/dumps:/opt/oddslingers.poker/core/dumps
+      - ./core/dumps:/opt/suitedconnectors.poker/core/dumps
 
 
   dramatiq:
-    image: oddslingers:django_base
-    working_dir: /opt/oddslingers.poker/core/
+    image: suitedconnectors:django_base
+    working_dir: /opt/suitedconnectors.poker/core/
     command: nice -15 ./manage.py rundramatiq --processes 1 --threads 1
     environment:
-      ODDSLINGERS_ENV: DEV
+      SUITEDCONNECTORS_ENV: DEV
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
     cap_add:
@@ -105,16 +105,16 @@ services:
       - .env
       - .secrets.env
     volumes:
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./bin:/opt/oddslingers.poker/bin
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./bin:/opt/suitedconnectors.poker/bin
  
       #TODO: Fish script sourcing
   yacron:
-    image: oddslingers:django_base
-    command: yacron -c /opt/oddslingers.poker/etc/yacron/oddslingers-dev.yaml
+    image: suitedconnectors:django_base
+    command: yacron -c /opt/suitedconnectors.poker/etc/yacron/suitedconnectors-dev.yaml
     environment:
-      ODDSLINGERS_ENV: DEV
+      SUITEDCONNECTORS_ENV: DEV
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
       IS_DOCKER: 1
@@ -125,8 +125,8 @@ services:
       - .env
       - .secrets.env
     volumes:
-      - ./etc:/opt/oddslingers.poker/etc
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./etc/yacron:/opt/oddslingers.poker/etc/yacron
-      - ./bin:/opt/oddslingers.poker/bin
+      - ./etc:/opt/suitedconnectors.poker/etc
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./etc/yacron:/opt/suitedconnectors.poker/etc/yacron
+      - ./bin:/opt/suitedconnectors.poker/bin

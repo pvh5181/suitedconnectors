@@ -22,8 +22,8 @@ json_escape () {
     printf '%s' "$1" | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
 }
 
-GH_USER="monadical-sas"
-GH_REPO="oddslingers.poker"
+GH_USER="sas"
+GH_REPO="suitedconnectors.poker"
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 COMMIT_HASH=$(git rev-parse HEAD)
@@ -39,7 +39,7 @@ ARTIFACT_URL="https://circleci.com/gh/${GH_USER}/${GH_REPO}/${BUILD_NUM}/artifac
 
 COMMENT="**Build:** [#${BUILD_NUM}](${BUILD_URL})
 
-[![](https://circleci.com/gh/monadical-sas/oddslingers.poker/tree/$BRANCH.svg?style=badge&circle-token=$CIRCLECI_TOKEN)](${BUILD_URL})
+[![](https://circleci.com/gh/monadical-sas/suitedconnectors.poker/tree/$BRANCH.svg?style=badge&circle-token=$CIRCLECI_TOKEN)](${BUILD_URL})
 
 **Commit:** https://github.com/${GH_USER}/${GH_REPO}/commit/${COMMIT_HASH} **${COMMIT_MSG}**
 
@@ -73,7 +73,7 @@ curl https://monadical.zulip.sweeting.me/api/v1/messages \
     -u circleci-bot@monadical.zulip.sweeting.me:exoRY2RRXEQFQQIHwHFVmAw4g5Zt4E9t \
     -d "type=stream" \
     -d "to=bots" \
-    -d "subject=oddslingers.poker" \
+    -d "subject=suitedconnectors.poker" \
     -d "content=$COMMENT"
 
 

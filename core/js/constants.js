@@ -1,8 +1,8 @@
-export const ODDSLINGERS_ROOT = __dirname + '/../..'  // oddslingers
+export const SUITEDCONNECTORS_ROOT = __dirname + '/../..'  // suitedconnectors
 export const GRATER_ROOT = 'core'
 export const JS_ROOT = 'core/src'
 
-export const DUMPS_FOLDER = `${ODDSLINGERS_ROOT}/${GRATER_ROOT}/dumps`
+export const DUMPS_FOLDER = `${SUITEDCONNECTORS_ROOT}/${GRATER_ROOT}/dumps`
 
 export const STATIC_URL = '/static'
 export const IMAGES_URL = '/static/images'

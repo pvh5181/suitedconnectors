@@ -2,7 +2,7 @@ import logging
 
 from django.utils import timezone
 
-from oddslingers.utils import secure_random_number
+from suitedconnectors.utils import secure_random_number
 from poker.constants import Action, ACTIVE_ACTIONS, NL_HOLDEM, NL_BOUNTY
 from poker.new_ai import (
     ai_betsize, ai_raisesize, get_smart_move, situation_is_preflop_open

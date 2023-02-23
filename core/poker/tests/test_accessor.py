@@ -12,7 +12,7 @@ from poker.constants import Event, PlayingState
 from poker.accessors import PokerAccessor
 from poker.megaphone import gamestate_json
 
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.mutations import execute_mutations
 
 
 class ActivePlayersTest(GenericTableTest):

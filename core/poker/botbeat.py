@@ -11,9 +11,9 @@ from raven.contrib.django.raven_compat.models import client
 from django.utils import timezone
 from django.conf import settings
 
-from oddslingers.utils import ANSI
-from oddslingers.system import find_process, stop_process
-from oddslingers.tasks import track_analytics_event
+from suitedconnectors.utils import ANSI
+from suitedconnectors.system import find_process, stop_process
+from suitedconnectors.tasks import track_analytics_event
 from support.artifacts import assemble_botbeat_info
 from support.incidents import ticket_from_botbeat_exception
 

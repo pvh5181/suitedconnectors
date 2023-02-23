@@ -18,7 +18,7 @@
             padding-bottom: 40px;
             z-index: 20;
         }
-        h1.oddslingers-text-logo {
+        h1.suitedconnectors-text-logo {
             text-align: center;
             font-size: 66px;
         }
@@ -65,17 +65,17 @@
 
     <div class="support-page col-md-12">
         <div class="col-lg-10 col-lg-offset-1 col-md-12" style="text-align: center">
-            <h1 class="oddslingers-text-logo">Community &amp; Support</h1>
+            <h1 class="suitedconnectors-text-logo">Community &amp; Support</h1>
             <div class="center social-btns">
-                <a href="https://twitter.com/oddslingers" target="_blank" rel="noopener" class="btn btn-info">
+                <a href="https://twitter.com/suitedconnectors" target="_blank" rel="noopener" class="btn btn-info">
                     <i class="fa fa-twitter"></i>
                     Twitter
                 </a>
-                <a href="https://facebook.com/oddslingers" target="_blank" rel="noopener" class="btn btn-fb">
+                <a href="https://facebook.com/suitedconnectors" target="_blank" rel="noopener" class="btn btn-fb">
                     <i class="fa fa-facebook"></i>
                     Facebook
                 </a>
-                <a href="https://reddit.com/r/oddslingers" target="_blank" rel="noopener" class="btn btn-reddit">
+                <a href="https://reddit.com/r/suitedconnectors" target="_blank" rel="noopener" class="btn btn-reddit">
                     <i class="fa fa-reddit"></i>
                     Reddit
                 </a>
@@ -90,7 +90,7 @@
             <br/>
 
             <div class="col-md-6 col-sm-12" style="text-align: center">
-                <h3 class="oddslingers-text-logo">Chat with us:</h3>
+                <h3 class="suitedconnectors-text-logo">Chat with us:</h3>
                 <iframe id="discordframe" src="https://discordapp.com/widget?id=359792659369558026&theme=dark{%if user%}&username={{user.username}}{%endif%}" allowtransparency="true" frameborder="0" height="280px"></iframe>
             </div>
 
@@ -108,7 +108,7 @@
                         Join us on Discord if you'd like to chat with us and check in on ticket progress.<br/><br/>
                         <b style="color: green">If the bug report helps us out, we'll award you the "Bug Hunter" badge!</b>
                     {% else %}
-                        <h3 class="oddslingers-text-logo">Submit a support request, suggestion, or general feedback:</h3>
+                        <h3 class="suitedconnectors-text-logo">Submit a support request, suggestion, or general feedback:</h3>
                         <form action="?" method="POST">{% csrf_token %}
                             <div id="info" class="input-group more-info">
                                 <span class="input-group-addon" id="info-label">
@@ -150,7 +150,7 @@
                             {% endif %}
                             <br/>
                             <small style="font-size: 0.7em">
-                                Or email your request to <a href="mailto:support@oddslingers.com" target="_blank" rel="noopener">support@oddslingers.com</a>
+                                Or email your request to <a href="mailto:support@suitedconnectors.com" target="_blank" rel="noopener">support@suitedconnectors.com</a>
                             </small>
                         </form>
                     {% endif %}
@@ -159,7 +159,7 @@
             {% if request.user.is_authenticated %}
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 col-sm-12">
-                        <h3 class="oddslingers-text-logo">Your Support Requests</h3>
+                        <h3 class="suitedconnectors-text-logo">Your Support Requests</h3>
                         <div class="well">
                             {% if tickets %}
                                 {% for ticket in tickets %}

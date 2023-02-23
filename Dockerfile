@@ -13,8 +13,8 @@
 FROM python:3.7-buster
 
 # Configuration defaults
-ENV ODDSLINGERS_ROOT "/opt/oddslingers.poker"
-ENV DATA_DIR "$ODDSLINGERS_ROOT/data"
+ENV SUITEDCONNECTORS_ROOT "/opt/suitedconnectors.poker"
+ENV DATA_DIR "$SUITEDCONNECTORS_ROOT/data"
 ENV HTTP_PORT "8000"
 ENV DJANGO_USER "www-data"
 ENV VENV_NAME ".venv-docker"
@@ -45,34 +45,34 @@ RUN apt-get update && apt-get install -y \
     # cleanup apt caches to keep image small
     rm -rf /var/lib/apt/lists/*
 
-# Setup Python virtualenv separately from code dir in /opt/oddslingers/.venv-docker.
+# Setup Python virtualenv separately from code dir in /opt/suitedconnectors/.venv-docker.
 #   It needs to be outside of the code dir because the code is mounted as a volume
 #   and would overwite the docker-specific venv with the incompatible host venv.
 
-WORKDIR "$ODDSLINGERS_ROOT"
+WORKDIR "$SUITEDCONNECTORS_ROOT"
 RUN pip install virtualenv && \
     virtualenv "$VENV_NAME"
-ENV PATH="$ODDSLINGERS_ROOT/$VENV_NAME/bin:${ODDSLINGERS_ROOT}/bin:./node_modules/.bin:${PATH}"
+ENV PATH="$SUITEDCONNECTORS_ROOT/$VENV_NAME/bin:${SUITEDCONNECTORS_ROOT}/bin:./node_modules/.bin:${PATH}"
 
 # Add .git HEAD to container 
 ADD .git/HEAD ./.git/HEAD
 ADD .git/refs/heads/ ./.git/refs/heads/
 
-# Install the python dependencies from requirements.txt into /opt/oddslingers.poker/.venv-docker.
-COPY ./core/Pipfile.lock "$ODDSLINGERS_ROOT/Pipfile.lock"
-RUN jq -r '.default,.develop | to_entries[] | .key + .value.version' "$ODDSLINGERS_ROOT/Pipfile.lock" | \
+# Install the python dependencies from requirements.txt into /opt/suitedconnectors.poker/.venv-docker.
+COPY ./core/Pipfile.lock "$SUITEDCONNECTORS_ROOT/Pipfile.lock"
+RUN jq -r '.default,.develop | to_entries[] | .key + .value.version' "$SUITEDCONNECTORS_ROOT/Pipfile.lock" | \
     pip install --no-cache-dir -r /dev/stdin && \
-    rm "$ODDSLINGERS_ROOT/Pipfile.lock"
+    rm "$SUITEDCONNECTORS_ROOT/Pipfile.lock"
 RUN npm install --global npm yarn
 RUN userdel "$DJANGO_USER" && addgroup --system "$DJANGO_USER" && \
     adduser --system --ingroup "$DJANGO_USER" --shell /bin/false "$DJANGO_USER"
 
 # Workers require to write data and own the directory
-RUN mkdir "$ODDSLINGERS_ROOT/data"
-RUN mkdir "$ODDSLINGERS_ROOT/data/logs"
-RUN mkdir -p "$ODDSLINGERS_ROOT/core/js/node_modules"
-RUN chown "$DJANGO_USER"."$DJANGO_USER" "$ODDSLINGERS_ROOT/data"
-RUN chown -R "$DJANGO_USER"."$DJANGO_USER" "$ODDSLINGERS_ROOT/data/logs"
-RUN chown -R "$DJANGO_USER"."$DJANGO_USER" "$ODDSLINGERS_ROOT/core"
+RUN mkdir "$SUITEDCONNECTORS_ROOT/data"
+RUN mkdir "$SUITEDCONNECTORS_ROOT/data/logs"
+RUN mkdir -p "$SUITEDCONNECTORS_ROOT/core/js/node_modules"
+RUN chown "$DJANGO_USER"."$DJANGO_USER" "$SUITEDCONNECTORS_ROOT/data"
+RUN chown -R "$DJANGO_USER"."$DJANGO_USER" "$SUITEDCONNECTORS_ROOT/data/logs"
+RUN chown -R "$DJANGO_USER"."$DJANGO_USER" "$SUITEDCONNECTORS_ROOT/core"
 
-ENTRYPOINT [ "/opt/oddslingers.poker/bin/entrypoint.sh" ]
+ENTRYPOINT [ "/opt/suitedconnectors.poker/bin/entrypoint.sh" ]

@@ -8,7 +8,7 @@ from banker.mutations import buy_chips
 
 from sockets.models import Socket
 
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.mutations import execute_mutations
 
 from poker.models import PokerTable
 from poker.tablebeat import (

@@ -6,8 +6,8 @@ from decimal import Decimal
 from django.conf import settings
 from django.urls import reverse
 
-from oddslingers.models import UserSession, User
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.models import UserSession, User
+from suitedconnectors.mutations import execute_mutations
 
 from poker.models import PokerTable, Player, Freezeout
 from poker.constants import TournamentStatus, TOURNEY_BUYIN_AMTS

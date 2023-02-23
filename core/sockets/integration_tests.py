@@ -14,12 +14,12 @@ from time import sleep
 from websocket import create_connection
 
 from sockets.models import ROUTING_KEY, HELLO_TYPE, GOT_HELLO_TYPE, PING_TYPE
-from oddslingers.utils import TimeOutException, timeout_handler, to_json_str
+from suitedconnectors.utils import TimeOutException, timeout_handler, to_json_str
 
 
-BASE_URL = os.environ.get('ODDSLINGERS_URL', 'http://127.0.0.1:8000')
+BASE_URL = os.environ.get('SUITEDCONNECTORS_URL', 'http://127.0.0.1:8000')
 WS_BASE_URL = os.environ.get(
-    'ODDSLINGERS_WS_URL',
+    'SUITEDCONNECTORS_WS_URL',
     BASE_URL.replace('http://', 'ws://')
             .replace(':443', '')
             .replace(':80', '')

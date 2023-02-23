@@ -6,7 +6,7 @@ from django.test import TestCase
 from banker.models import BalanceTransfer
 from banker.mutations import create_transfer, buy_chips
 
-from oddslingers.mutations import execute_mutations, MutationError
+from suitedconnectors.mutations import execute_mutations, MutationError
 
 
 class CashierTest(TestCase):

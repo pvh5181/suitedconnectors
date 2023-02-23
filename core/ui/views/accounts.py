@@ -20,11 +20,11 @@ from allauth.account.utils import complete_signup
 from allauth.account.models import EmailAddress
 from allauth.account.views import ConfirmEmailView
 
-from oddslingers.models import User
-from oddslingers.tasks import send_signup_email, send_chips_email, track_analytics_event
-from oddslingers.utils import (sanitize_html, require_login,
+from suitedconnectors.models import User
+from suitedconnectors.tasks import send_signup_email, send_chips_email, track_analytics_event
+from suitedconnectors.utils import (sanitize_html, require_login,
                           camelcase_to_capwords)
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.mutations import execute_mutations
 
 from banker.utils import (
     deposits, transfer_history,
@@ -58,7 +58,7 @@ CHIP_BUY_DELAY = timedelta(hours=1)
 
 # We dont want people getting a username like "Bet" or "dealer"
 BANNED_USERNAMES = {
-    'dealer', 'button', 'cashier', 'banker', 'oddslingers', 'support',
+    'dealer', 'button', 'cashier', 'banker', 'suitedconnectors', 'support',
     'raise', 'anon', 'anonymous', 'undefined', 'null', 'nan',
     'infinity', 'admin', 'administrator', 'smith', 'username',
     'password', 'won', 'lost', 'system', 'beta', 'prod', 'dev', 'poker'
@@ -297,7 +297,7 @@ def validate_signup_form(username, password, password2, email):
         return 'Missing username or password.'
 
     if username in ('cowpig', 'squash'):
-        # oddslingers manage create_superuser
+        # suitedconnectors manage create_superuser
         return 'Hah, nice try. You can only create these users from the CLI.'
 
     # they're missing an email address

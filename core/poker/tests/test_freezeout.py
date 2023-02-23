@@ -1,5 +1,5 @@
-from oddslingers.tests.test_utils import MonkeyPatch
-from oddslingers.utils import DoesNothing
+from suitedconnectors.tests.test_utils import MonkeyPatch
+from suitedconnectors.utils import DoesNothing
 
 from poker.controllers import (HoldemFreezeoutController, InvalidAction,
                                BountyFreezeoutController)

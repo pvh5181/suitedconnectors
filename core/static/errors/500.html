@@ -1,13 +1,13 @@
 <html>
     <head>
-        <title>Oddslingers</title>
+        <title>Suitedconnectors</title>
         <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
         <style>
             @font-face {
               font-family: 'Bungee';
               font-style: normal;
               font-weight: 400;
-              src: local('Bungee'), local('Bungee-Regular'), url(/static/fonts/bungee.ttf) format('truetype');
+              src: local('Bungee'), local('Bungee-Regular'), url(/static/fonts/Bungee.ttf) format('truetype');
             }
             html {
                 width: 100%;
@@ -30,19 +30,19 @@
                 width: 100%;
                 max-width: 500px;
             }
-            .oddslingers-logo {
+            .suitedconnectors-logo {
                 margin-top: 6vh;
                 color: white;
                 font-family: 'Bungee', 'Helvetica';
                 font-size: 60px;
             }
-            .oddslingers-logo::first-letter {
+            .suitedconnectors-logo::first-letter {
                 color: orange;
             }
-            .oddslingers-logo a {
+            .suitedconnectors-logo a {
                 text-decoration: none;
             }
-            .oddslingers-logo a:hover {
+            .suitedconnectors-logo a:hover {
                 text-decoration: underline;
             }
             a {
@@ -69,8 +69,8 @@
         </style>
     </head>
     <body>
-        <h1 class="oddslingers-logo">
-            <a href="/" title="Refresh...">O</a>ddslingers
+        <h1 class="suitedconnectors-logo">
+            <a href="/" title="Refresh...">S</a>uitedconnectors
         </h1>
         <br><br>
 
@@ -83,7 +83,7 @@
         <script>
             window.tries = 1
             var MAINTENANCE_MSG = "We're doing some quick maintenance right now, the page will load automatically once it's ready...";
-            var APOLOGY_MSG = "<br/><br/>Sorry for the delay, try refreshing or <a href='mailto:support@oddslingers.com'>contacting support</a> if you still aren't able to access Oddslingers in a few minutes."
+            var APOLOGY_MSG = "<br/><br/>Sorry for the delay, try refreshing or <a href='mailto:support@suitedconnectors.com'>contacting support</a> if you still aren't able to access Oddslingers in a few minutes."
 
             function getFuzzyDelay() {
                 return 1000 + 2 * Math.round(Math.random() * 1000);   // slighly mitigate DDoS effect of everyone refreshing together by having a random delay
@@ -118,7 +118,7 @@
                 }
             }
             checkStatus();
-            if (!window.location.origin.includes('oddslingers.com')) {
+            if (!window.location.origin.includes('suitedconnectors.com')) {
                 document.getElementById('start-runserver-btn').innerHTML = '<a href="/start_runserver/">Start Runserver ></a>';
             }
         </script>

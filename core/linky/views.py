@@ -8,7 +8,7 @@ from django.http import Http404
 from django.urls import reverse
 
 from linky.models import TrackedLink
-from oddslingers.settings import DEFAULT_HOST, DEFAULT_HTTP_PROTOCOL
+from suitedconnectors.settings import DEFAULT_HOST, DEFAULT_HTTP_PROTOCOL
 
 CAMPAIGNS = [
     'facebook_table_share',

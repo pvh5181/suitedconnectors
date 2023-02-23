@@ -1,5 +1,5 @@
 window.PYTHON_FAILURE_MSG = 'We failed to render the page due to an error.'
-window.JS_LOAD_FAILURE_MSG = 'The UI failed to load due to an error.' + (window.DEBUG ? ' Try rebuilding JS files with `<b>../oddslingers compjs</b>`.' : '')
+window.JS_LOAD_FAILURE_MSG = 'The UI failed to load due to an error.' + (window.DEBUG ? ' Try rebuilding JS files with `<b>../suitedconnectors compjs</b>`.' : '')
 window.ERROR_HELP_MSG = 'Check the console for error details. If you urgently need to access data, try the <a href="/admin/">Django Admin</a>.'
 window.COMPONENT_404_MSG = 'UI component was not found.'
 window.EMAIL_HELP_TXT = "Sorry you encountered a problem on Oddslingers!%0AWe'll try to get back to you as soon as possible, we just need some information to help resolve the issue.%0A%0APlease describe your issue here:%0A    What happened? Did you see any errors?%0A%0ASteps you took before you encountered the issue:%0A    1. %0A    2. %0A    3. %0A    ...";
@@ -41,7 +41,7 @@ window.onerror = function(error, url, line, python_exc) {
     var subject = "Page Loading Error for " + (window.user ? window.user.username : 'Anonymous User');
     var help_text = window.EMAIL_HELP_TXT
     var support_info = "================================%0AOn URL: " + window.location + "%0A" + encodeURIComponent(python_exc) + "%0A" + encodeURIComponent(url) + ":" + encodeURIComponent(line) + "%0A" + encodeURIComponent(error);
-    var support_link = "mailto:support@oddslingers.com?subject=" + subject + "&body=" + help_text + "%0A%0A" + support_info;
+    var support_link = "mailto:support@suitedconnectors.com?subject=" + subject + "&body=" + help_text + "%0A%0A" + support_info;
     $('#react-loading .failed').append('<br><br><a href="' + support_link + '">Contact support</a> to report the error and get help.');
     $('#react-loading').append('<img height="80px" src="/static/images/sad-mac-face.png">');
     $('#react-loading .failed').show();

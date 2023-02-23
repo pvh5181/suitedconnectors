@@ -59,7 +59,7 @@ export const CurrentActions = reduxify({
         const is_pot_limit = table.variant.includes('Pot Limit')
         const amt_to_call = including_wagers(player.amt_to_call)
         const potsize_with_call = Number(table.total_pot) + Number(player.amt_to_call)
-        const pot_raise = Math.round(amt_to_call + potsize_with_call)
+        const pot_raise = (amt_to_call + potsize_with_call)
 
         const player_allin = including_wagers(player.stack.amt)
         const max_bet = is_pot_limit ? Math.min(player_allin, pot_raise) : player_allin

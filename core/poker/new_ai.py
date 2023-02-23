@@ -3,7 +3,7 @@ import logging
 
 from decimal import Decimal
 
-from oddslingers.utils import (
+from suitedconnectors.utils import (
     round_to_multiple, secure_random_number  # noqa
 )
 

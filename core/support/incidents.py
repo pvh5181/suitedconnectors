@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 
-from oddslingers.tasks import (
+from suitedconnectors.tasks import (
     track_analytics_event, send_support_email, message_to_zulip_support,
     send_support_email_reply
 )

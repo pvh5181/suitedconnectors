@@ -10,7 +10,7 @@ from typing import Union, Optional, List
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-from oddslingers.utils import to_json_str
+from suitedconnectors.utils import to_json_str
 from poker.models import PokerTable
 from poker.replayer import EventReplayer
 from poker.controllers import controller_for_table
@@ -104,7 +104,7 @@ def read_artifact(ticket: SupportTicket, path: str) -> Optional[Union[str, dict]
 def save_settings_info(ticket: SupportTicket):
     settings_info = {
         'DEBUG': settings.DEBUG,
-        'ODDSLINGERS_ENV': settings.ODDSLINGERS_ENV,
+        'SUITEDCONNECTORS_ENV': settings.SUITEDCONNECTORS_ENV,
         'GIT_SHA': settings.GIT_SHA,
         'DJANGO_USER': settings.DJANGO_USER,
         'PID': settings.PID,

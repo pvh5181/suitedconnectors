@@ -4,9 +4,9 @@ from typing import List, Tuple
 
 from django.conf import settings
 
-from oddslingers.tasks import track_analytics_event
-from oddslingers.model_utils import BaseModel
-from oddslingers.models import User
+from suitedconnectors.tasks import track_analytics_event
+from suitedconnectors.model_utils import BaseModel
+from suitedconnectors.models import User
 
 from banker.views import buy_chips
 
@@ -17,7 +17,7 @@ from .constants import (
     COMPLETED_NEWCOMER_REWARD, NO_REWARD_BADGES, XSS_STRINGS, SWEAR_WORDS
 )
 
-logger = logging.getLogger('oddslingers')
+logger = logging.getLogger('suitedconnectors')
 
 
 def earn_first_time_chips(badge: Badge) -> List[BaseModel]:

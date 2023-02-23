@@ -8,7 +8,7 @@ from channels.test import ChannelTestCase, WSClient, Client, apply_routes
 
 from django.contrib.auth import get_user_model
 
-from oddslingers.utils import to_json_str
+from suitedconnectors.utils import to_json_str
 
 from .models import Socket
 from .handlers import RoutedSocketHandler

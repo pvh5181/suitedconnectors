@@ -4,8 +4,8 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-from oddslingers.model_utils import BaseModel
-from oddslingers.managers import SeasonLogLikeManager
+from suitedconnectors.model_utils import BaseModel
+from suitedconnectors.managers import SeasonLogLikeManager
 
 
 class Cashier(BaseModel):
@@ -32,7 +32,7 @@ class Cashier(BaseModel):
 class BalanceTransfer(BaseModel):
     objects = SeasonLogLikeManager(creation_date_field='timestamp')
 
-    balance_models = (models.Q(app_label='oddslingers', model='User') | 
+    balance_models = (models.Q(app_label='suitedconnectors', model='User') | 
                       models.Q(app_label='poker', model='PokerTable') | 
                       models.Q(app_label='banker', model='Cashier'))
 

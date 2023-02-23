@@ -19,10 +19,10 @@ services:
     links: 
       - "django"
     volumes:
-      - ./etc/nginx/oddslingers-docker-compose.prod.conf:/etc/nginx/nginx.conf
-      - ./data/certs:/opt/oddslingers.poker/data/certs
-      - ./core:/opt/oddslingers.poker/core
-      - ./data/static:/opt/oddslingers.poker/data/static
+      - ./etc/nginx/suitedconnectors-docker-compose.prod.conf:/etc/nginx/nginx.conf
+      - ./data/certs:/opt/suitedconnectors.poker/data/certs
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./data/static:/opt/suitedconnectors.poker/data/static
 
   postgres:
     image: postgres:13
@@ -47,20 +47,20 @@ services:
 
   django:
     build: .
-    image: oddslingers:django_base
-    hostname: oddslingers-prod
-    working_dir: /opt/oddslingers.poker/core/
-    command: daphne -b 0.0.0.0 -p 8000 oddslingers.asgi:channel_layer
+    image: suitedconnectors:django_base
+    hostname: suitedconnectors-prod
+    working_dir: /opt/suitedconnectors.poker/core/
+    command: daphne -b 0.0.0.0 -p 8000 suitedconnectors.asgi:channel_layer
     stdin_open: true
     tty: true
     depends_on: 
       - postgres
       - redis
     environment:
-      ODDSLINGERS_ENV: PROD
+      SUITEDCONNECTORS_ENV: PROD
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
-      DJANGO_SETTINGS_MODULE: "oddslingers.settings"
+      DJANGO_SETTINGS_MODULE: "suitedconnectors.settings"
       IS_DOCKER: 1
     env_file:
       - ./env/beta-docker.env
@@ -68,84 +68,84 @@ services:
     expose: 
       - 8000
     volumes:
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./bin:/opt/oddslingers.poker/bin
-      - ./env:/opt/oddslingers.poker/env
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./bin:/opt/suitedconnectors.poker/bin
+      - ./env:/opt/suitedconnectors.poker/env
 
   worker:
-    image: oddslingers:django_base
-    working_dir: /opt/oddslingers.poker/core/
-    entrypoint: /opt/oddslingers.poker/bin/worker-docker-entrypoint.sh
+    image: suitedconnectors:django_base
+    working_dir: /opt/suitedconnectors.poker/core/
+    entrypoint: /opt/suitedconnectors.poker/bin/worker-docker-entrypoint.sh
     user: root
     depends_on:
       - postgres
       - redis
     environment:
-      ODDSLINGERS_ENV: PROD
+      SUITEDCONNECTORS_ENV: PROD
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
-      DJANGO_SETTINGS_MODULE: "oddslingers.settings"
+      DJANGO_SETTINGS_MODULE: "suitedconnectors.settings"
       IS_DOCKER: 1
     env_file:
       - ./env/beta-docker.env
       - ./.secrets-prod.env
     volumes:
-      - ./data:/opt/oddslingers.poker/data
+      - ./data:/opt/suitedconnectors.poker/data
       - ./data/logs:/var/log/supervisor
-      - ./core:/opt/oddslingers.poker/core
-      - ./bin:/opt/oddslingers.poker/bin
-      - ./env:/opt/oddslingers.poker/env
-      - ./etc/supervisor/oddslingers-docker-prod-worker.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./bin:/opt/suitedconnectors.poker/bin
+      - ./env:/opt/suitedconnectors.poker/env
+      - ./etc/supervisor/suitedconnectors-docker-prod-worker.conf:/etc/supervisor/conf.d/supervisord.conf
 
   botbeat:
-    image: oddslingers:django_base
-    working_dir: /opt/oddslingers.poker/core/
+    image: suitedconnectors:django_base
+    working_dir: /opt/suitedconnectors.poker/core/
     command: ./manage.py bot_heartbeat
     depends_on:
       - postgres
       - redis
     environment:
-      ODDSLINGERS_ENV: PROD
+      SUITEDCONNECTORS_ENV: PROD
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
-      DJANGO_SETTINGS_MODULE: "oddslingers.settings"
+      DJANGO_SETTINGS_MODULE: "suitedconnectors.settings"
       IS_DOCKER: 1
     restart: on-failure
     env_file:
       - ./env/beta-docker.env
       - ./.secrets-prod.env
     volumes:
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./bin:/opt/oddslingers.poker/bin
-      - ./env:/opt/oddslingers.poker/env
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./bin:/opt/suitedconnectors.poker/bin
+      - ./env:/opt/suitedconnectors.poker/env
 
   webpack:
     build:
       context: . 
       dockerfile: ./Dockerfile.webpack
-    image: oddslingers:webpack
+    image: suitedconnectors:webpack
     command: sh -c "(webpack --mode development --watch --info-verbosity verbose & node-sass-chokidar --watch scss/ -o ../static/css 2>&1  &)| cat"
     stdin_open: true
     tty: true
     environment:
-      ODDSLINGERS_ENV: DEV
+      SUITEDCONNECTORS_ENV: DEV
     volumes:
-      - ./core/js:/opt/oddslingers.poker/core/js
-      - ./core/static:/opt/oddslingers.poker/core/static
+      - ./core/js:/opt/suitedconnectors.poker/core/js
+      - ./core/static:/opt/suitedconnectors.poker/core/static
       # Hide local node_modules
       - ./core/js/node_modules:/src/node_modules
       # Add dumps for UI tests
-      - ./core/dumps:/opt/oddslingers.poker/core/dumps
+      - ./core/dumps:/opt/suitedconnectors.poker/core/dumps
 
 
   dramatiq:
-    image: oddslingers:django_base
-    working_dir: /opt/oddslingers.poker/core/
+    image: suitedconnectors:django_base
+    working_dir: /opt/suitedconnectors.poker/core/
     command: nice -15 ./manage.py rundramatiq --processes 1 --threads 1
     environment:
-      ODDSLINGERS_ENV: PROD
+      SUITEDCONNECTORS_ENV: PROD
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
     cap_add:
@@ -157,26 +157,26 @@ services:
       - ./env/beta-docker.env
       - ./.secrets-prod.env
     volumes:
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./bin:/opt/oddslingers.poker/bin
-      - ./etc:/opt/oddslingers.poker/etc
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./bin:/opt/suitedconnectors.poker/bin
+      - ./etc:/opt/suitedconnectors.poker/etc
  
   cloudflare:
     image: cloudflare/cloudflared
     network_mode: 'service:nginx'
-    command: tunnel --no-autoupdate --hostname oddslingers-staging.zervice.io http://nginx
+    command: tunnel --no-autoupdate --hostname suitedconnectors-staging.zervice.io http://nginx
     depends_on:
       - django
     volumes:
-      - ./data/certs/oddslingers.zervice.io.pem:/etc/cloudflared/cert.pem:ro
+      - ./data/certs/suitedconnectors.zervice.io.pem:/etc/cloudflared/cert.pem:ro
 
   yacron:
-    image: oddslingers:django_base
-    hostname: oddslingers-prod
-    command: yacron -c /opt/oddslingers.poker/etc/yacron/oddslingers-prod-docker.yaml
+    image: suitedconnectors:django_base
+    hostname: suitedconnectors-prod
+    command: yacron -c /opt/suitedconnectors.poker/etc/yacron/suitedconnectors-prod-docker.yaml
     environment:
-      ODDSLINGERS_ENV: PROD
+      SUITEDCONNECTORS_ENV: PROD
       POSTGRES_HOST: postgres
       REDIS_HOST: redis
       IS_DOCKER: 1
@@ -187,8 +187,8 @@ services:
       - ./env/beta-docker.env
       - ./.secrets-prod.env
     volumes:
-      - ./etc:/opt/oddslingers.poker/etc
-      - ./data:/opt/oddslingers.poker/data
-      - ./core:/opt/oddslingers.poker/core
-      - ./etc/yacron:/opt/oddslingers.poker/etc/yacron
-      - ./bin:/opt/oddslingers.poker/bin
+      - ./etc:/opt/suitedconnectors.poker/etc
+      - ./data:/opt/suitedconnectors.poker/data
+      - ./core:/opt/suitedconnectors.poker/core
+      - ./etc/yacron:/opt/suitedconnectors.poker/etc/yacron
+      - ./bin:/opt/suitedconnectors.poker/bin

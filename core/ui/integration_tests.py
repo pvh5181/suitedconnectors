@@ -15,8 +15,8 @@ from ui.views.base_views import BaseView
 from ui.urls import urlpatterns
 
 
-BASE_URL = os.environ.get('ODDSLINGERS_URL', 'http://127.0.0.1:8000')
-WS_BASE_URL = os.environ.get('ODDSLINGERS_WS_URL', BASE_URL.replace('https://', 'wss://').replace('http://', 'ws://').replace(':443', '').replace(':80', ''))
+BASE_URL = os.environ.get('SUITEDCONNECTORS_URL', 'http://127.0.0.1:8000')
+WS_BASE_URL = os.environ.get('SUITEDCONNECTORS_WS_URL', BASE_URL.replace('https://', 'wss://').replace('http://', 'ws://').replace(':443', '').replace(':80', ''))
 VERIFY_SSL = os.environ.get('SERVER_TEST_VERIFY_SSL', 'True') == 'True'
 TIMEOUT = int(os.environ.get('SERVER_TEST_TIMEOUT', '5'))
 LOAD_FACTOR = int(os.environ.get('SERVER_TEST_LOAD_FACTOR', '1'))

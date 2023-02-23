@@ -6,8 +6,8 @@ from decimal import Decimal
 from django.urls import reverse
 from django.utils import timezone
 
-from oddslingers.utils import camelcase_to_capwords
-from oddslingers.mutations import MutationList
+from suitedconnectors.utils import camelcase_to_capwords
+from suitedconnectors.mutations import MutationList
 
 from poker.subscribers import MutationSubscriber
 

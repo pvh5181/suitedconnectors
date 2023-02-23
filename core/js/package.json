@@ -1,18 +1,18 @@
 {
-  "name": "oddslingers",
+  "name": "suitedconnectors",
   "version": "0.0.1",
   "description": "Oddslingers Poker",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/monadical-sas/oddslingers.poker.git"
+    "url": "git+https://github.com/monadical-sas/suitedconnectors.poker.git"
   },
   "author": "pirate",
   "license": "PRIVATE",
   "bugs": {
-    "url": "https://github.com/monadical-sas/oddslingers.poker/issues"
+    "url": "https://github.com/monadical-sas/suitedconnectors.poker/issues"
   },
-  "homepage": "https://github.com/monadical-sas/oddslingers.poker#readme",
+  "homepage": "https://github.com/monadical-sas/suitedconnectors.poker#readme",
   "dependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.0",
@@ -56,13 +56,13 @@
     "webpack-dev-server": "^3.1.10"
   },
   "scripts": {
-    "compjs": "../../bin/oddslingers compjs $1",
-    "watchjs": "../../bin/oddslingers watchjs $1",
-    "lint": "../../bin/oddslingers lintjs",
-    "test": "../../bin/oddslingers testjs",
-    "build": "../../bin/oddslingers build",
-    "buildcss": "../../bin/oddslingers buildcss",
-    "watchcss": "../../bin/oddslingers watchcss"
+    "compjs": "../../bin/suitedconnectors compjs $1",
+    "watchjs": "../../bin/suitedconnectors watchjs $1",
+    "lint": "../../bin/suitedconnectors lintjs",
+    "test": "../../bin/suitedconnectors testjs",
+    "build": "../../bin/suitedconnectors build",
+    "buildcss": "../../bin/suitedconnectors buildcss",
+    "watchcss": "../../bin/suitedconnectors watchcss"
   },
   "babel": {
     "presets": [

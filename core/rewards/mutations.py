@@ -1,12 +1,12 @@
 import logging
 
-from oddslingers.tasks import track_analytics_event
-from oddslingers.models import User
+from suitedconnectors.tasks import track_analytics_event
+from suitedconnectors.models import User
 
 from banker.mutations import create_transfer
 from banker.models import Cashier
 
-from oddslingers.mutations import Mutation, MutationList
+from suitedconnectors.mutations import Mutation, MutationList
 
 from .models import Badge
 from .constants import (
@@ -15,7 +15,7 @@ from .constants import (
     COMPLETED_NEWCOMER_REWARD, NO_REWARD_BADGES, XSS_STRINGS, SWEAR_WORDS
 )
 
-logger = logging.getLogger('oddslingers')
+logger = logging.getLogger('suitedconnectors')
 
 
 def earn_first_time_chips(user: User, name: str):

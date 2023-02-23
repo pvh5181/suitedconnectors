@@ -1,8 +1,8 @@
 from django.db import models
 from django.conf import settings
 
-from oddslingers.model_utils import BaseModel
-from oddslingers.managers import SeasonRegularManager
+from suitedconnectors.model_utils import BaseModel
+from suitedconnectors.managers import SeasonRegularManager
 
 from poker.constants import SEASONS
 

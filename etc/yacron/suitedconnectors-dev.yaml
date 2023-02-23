@@ -1,0 +1,28 @@
+defaults:
+    shell: /bin/bash
+    environment:
+      - key: SUITEDCONNECTORS_ENV
+        value: DEV
+      - key: TERM
+        value: ansi
+
+jobs:
+  - name: daily-report
+    command: fish -c 'source /opt/suitedconnectors.poker/bin/suitedconnectors.fish; manage daily_report >> /opt/suitedconnectors.poker/data/logs/daily_report.log'
+    schedule: "*/5 * * * *"
+    # every 5 minutes
+
+  - name: check-server-load
+    command: fish -c 'source /opt/suitedconnectors.poker/bin/suitedconnectors.fish; manage check_server_load >> /opt/suitedconnectors.poker/data/logs/server_load.log'
+    schedule: "*/5 * * * *"
+    # every 5 minutes
+
+  - name: weekly-rewards
+    command: fish -c 'source /opt/suitedconnectors.poker/bin/suitedconnectors.fish; manage weekly_rewards >> /opt/suitedconnectors.poker/data/logs/weekly_rewards.log'
+    schedule: "*/5 * * * *"
+    # every 5 minutes
+
+  - name: leaderboard-cache
+    command: fish -c 'source /opt/suitedconnectors.poker/bin/suitedconnectors.fish; manage save_leaderboard_cache >> /opt/suitedconnectors.poker/data/logs/leaderboard-cache.log'
+    schedule: "0 0 * * *"
+    # every day at 00:00hrs

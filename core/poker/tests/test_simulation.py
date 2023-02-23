@@ -10,8 +10,8 @@ from os import remove
 from django.test import tag
 from django.conf import settings
 
-from oddslingers.utils import DoesNothing, to_json_str, TempRandomSeed
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import DoesNothing, to_json_str, TempRandomSeed
+from suitedconnectors.mutations import execute_mutations
 
 from poker.bots import get_robot_move
 from poker.cards import Card

@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from oddslingers.utils import ExtendedEncoder
+from suitedconnectors.utils import ExtendedEncoder
 from sockets.models import Socket, SocketQuerySet
 
 

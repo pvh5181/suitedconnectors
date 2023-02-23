@@ -354,7 +354,7 @@ const getTransferDescription = (transfer) => {
                     [`Sent chips by email to `, the_link]
                   : [`Chips with invitation sent to `, mailto_href]
             } catch (e) {
-                return [`Paid to the OddSlingers Cashier`]
+                return [`Paid to the Oddslingers Cashier`]
             }
         }
     } else {
@@ -1281,7 +1281,7 @@ class UserProfile extends React.Component {
                         <div style={{border: '1px dashed red'}}>
                             Admin Actions
                             <br/>
-                            <a href={`/admin/oddslingers/user/${profile_user.id}/change/`}
+                            <a href={`/admin/suitedconnectors/user/${profile_user.id}/change/`}
                                className="btn btn-warning btn-sm">
                                 Edit User &nbsp;<Icon name="pencil"/>
                             </a>

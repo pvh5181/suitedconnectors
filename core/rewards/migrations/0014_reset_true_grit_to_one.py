@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def reset_true_grit_to_one(apps, schema_editor):
-    User = apps.get_model('oddslingers', 'User')
+    User = apps.get_model('suitedconnectors', 'User')
     Badge = apps.get_model('rewards', 'Badge')
 
     for user in User.objects.all():

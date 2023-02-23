@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='supportticket',
             name='source',
-            field=models.CharField(choices=[('admin', 'Admin Created'), ('email', 'Email to support@oddslingers.com'), ('support-page', 'Support Page Submition'), ('table-report-bug', 'Report Bug on a Table'), ('heartbeat', 'Heartbeat Exception'), ('botbeat', 'Botbeat Exception')], default='admin', max_length=32),
+            field=models.CharField(choices=[('admin', 'Admin Created'), ('email', 'Email to support@suitedconnectors.com'), ('support-page', 'Support Page Submition'), ('table-report-bug', 'Report Bug on a Table'), ('heartbeat', 'Heartbeat Exception'), ('botbeat', 'Botbeat Exception')], default='admin', max_length=32),
         ),
         migrations.AlterField(
             model_name='supportticket',

@@ -15,8 +15,8 @@ from sockets.integration_tests import (connect_socket, send_action,
                                        recv_json, recv_all_json)
 
 
-BASE_URL = os.environ.get('ODDSLINGERS_URL', 'http://127.0.0.1:8000')
-WS_BASE_URL = os.environ.get('ODDSLINGERS_WS_URL', 
+BASE_URL = os.environ.get('SUITEDCONNECTORS_URL', 'http://127.0.0.1:8000')
+WS_BASE_URL = os.environ.get('SUITEDCONNECTORS_WS_URL', 
                              BASE_URL.replace('https://', 'wss://')\
                              .replace(':443', '')\
                              .replace(':80', ''))

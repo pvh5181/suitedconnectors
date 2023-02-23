@@ -44,7 +44,7 @@ class Command(BaseCommand):
         for _ in range(load):
             t = SocketThread(
                 url=ws_url, 
-                verify=('oddslingers.com' in ws_url), 
+                verify=('suitedconnectors.com' in ws_url), 
                 wait=True, 
                 verbose=verbosity > 0, 
                 get_message=lambda: {'type': 'GET_GAMESTATE'}

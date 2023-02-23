@@ -1,6 +1,6 @@
 /* Dark theme colors */
 /* Additonal light theme colors */
-h1.oddslingers-text-logo {
+h1.suitedconnectors-text-logo {
   text-align: center;
   font-size: 66px; }
 
@@ -178,7 +178,7 @@ hr {
   border-width: 5px; }
 
 @media (max-width: 767px) {
-  h1.oddslingers-text-logo {
+  h1.suitedconnectors-text-logo {
     text-align: center;
     font-size: 66px; }
   h1 small {
@@ -213,7 +213,7 @@ hr {
     padding: 0px; } }
 
 @media (max-width: 336px) {
-  h1.oddslingers-text-logo {
+  h1.suitedconnectors-text-logo {
     font-size: 12.2vw;
     margin-top: 3px; }
   .tables-actions .search-field .input-group {

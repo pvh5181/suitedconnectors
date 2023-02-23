@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='balancetransfer',
             name='dest_type',
-            field=models.ForeignKey(limit_choices_to=models.Q(models.Q(('app_label', 'oddslingers'), ('model', 'User')), models.Q(('app_label', 'poker'), ('model', 'PokerTable')), models.Q(('app_label', 'banker'), ('model', 'Cashier')), _connector='OR'), on_delete=django.db.models.deletion.DO_NOTHING, related_name='recv_transfers', to='contenttypes.ContentType'),
+            field=models.ForeignKey(limit_choices_to=models.Q(models.Q(('app_label', 'suitedconnectors'), ('model', 'User')), models.Q(('app_label', 'poker'), ('model', 'PokerTable')), models.Q(('app_label', 'banker'), ('model', 'Cashier')), _connector='OR'), on_delete=django.db.models.deletion.DO_NOTHING, related_name='recv_transfers', to='contenttypes.ContentType'),
         ),
         migrations.AlterField(
             model_name='balancetransfer',
             name='source_type',
-            field=models.ForeignKey(limit_choices_to=models.Q(models.Q(('app_label', 'oddslingers'), ('model', 'User')), models.Q(('app_label', 'poker'), ('model', 'PokerTable')), models.Q(('app_label', 'banker'), ('model', 'Cashier')), _connector='OR'), on_delete=django.db.models.deletion.DO_NOTHING, related_name='sent_transfers', to='contenttypes.ContentType'),
+            field=models.ForeignKey(limit_choices_to=models.Q(models.Q(('app_label', 'suitedconnectors'), ('model', 'User')), models.Q(('app_label', 'poker'), ('model', 'PokerTable')), models.Q(('app_label', 'banker'), ('model', 'Cashier')), _connector='OR'), on_delete=django.db.models.deletion.DO_NOTHING, related_name='sent_transfers', to='contenttypes.ContentType'),
         ),
     ]

@@ -25,9 +25,9 @@ export const select_props = (state) => {
 }
 
 export const compute_props = ({min_bet, max_bet, current_pot, amt_to_call}) => {
-    const half = Math.round(amt_to_call + (1/2)*current_pot)
-    const two_thirds = Math.round(amt_to_call + (2/3)*current_pot)
-    const pot = Math.round(amt_to_call + current_pot)
+    const half = (amt_to_call + (1/2)*current_pot)
+    const two_thirds = (amt_to_call + (2/3)*current_pot)
+    const pot = (amt_to_call + current_pot)
     const bets = [
         {label: 'Min', amt: min_bet, str: min_bet.toLocaleString()},
         {label: '1/2', amt: half, str: half.toLocaleString()},

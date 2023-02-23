@@ -7,7 +7,7 @@ from uuid import UUID
 from django.conf import settings
 from django.shortcuts import redirect
 
-from oddslingers.utils import sanitize_html, require_staff, to_json_str  # noqa
+from suitedconnectors.utils import sanitize_html, require_staff, to_json_str  # noqa
 
 from poker.models import PokerTable
 from poker.tablebeat import stop_tablebeat

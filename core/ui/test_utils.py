@@ -10,8 +10,8 @@ from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 
-from oddslingers.utils import to_json_str
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.utils import to_json_str
+from suitedconnectors.mutations import execute_mutations
 
 from sockets.models import Socket
 
@@ -245,7 +245,7 @@ class MockRequest(HttpRequest):
         self.resolver_match = type('resolver_match', (), {'url_name': 'test_url'})()
 
         def build_absolute_uri():
-            return 'http://oddslingers.com/TEST_URL'
+            return 'http://suitedconnectors.com/TEST_URL'
 
         self.build_absolute_uri = build_absolute_uri
         User = get_user_model()

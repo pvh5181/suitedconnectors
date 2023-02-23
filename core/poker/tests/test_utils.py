@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from oddslingers.utils import autocast, rotated
+from suitedconnectors.utils import autocast, rotated
 
 from poker.cards import Card
 

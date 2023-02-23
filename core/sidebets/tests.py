@@ -3,9 +3,9 @@
 # from django.utils import timezone
 from django.contrib.auth import get_user_model
 
-# from oddslingers.tests.test_utils import TimezoneMocker
+# from suitedconnectors.tests.test_utils import TimezoneMocker
 
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.mutations import execute_mutations
 
 from banker.mutations import buy_chips
 

@@ -20,14 +20,14 @@ REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
 source "$REPO_DIR/env/prod.env"
 DATA_DIR="$REPO_DIR/data"
 
-echo "ODDSLINGERS_ENV=PROD" >> /etc/environment
+echo "SUITEDCONNECTORS_ENV=PROD" >> /etc/environment
 
 ln -sf "$DATA_DIR" /data
-mkdir -p /opt/oddslingers.poker/data/logs
-ln -sf /opt/oddslingers.poker/data/logs /var/log/oddslingers
+mkdir -p /opt/suitedconnectors.poker/data/logs
+ln -sf /opt/suitedconnectors.poker/data/logs /var/log/suitedconnectors
 
-chown www-data:www-data /opt/oddslingers.poker/data
-chown -R www-data:www-data /opt/oddslingers.poker/data/logs
+chown www-data:www-data /opt/suitedconnectors.poker/data
+chown -R www-data:www-data /opt/suitedconnectors.poker/data/logs
 
 
 success " 🔵    Setup: Production Machine w/ supervisord (Ubuntu >= 17.04)"
@@ -35,7 +35,7 @@ success " 🔵    Setup: Production Machine w/ supervisord (Ubuntu >= 17.04)"
         error "Not on Linux!: $(uname)"
         exit 1
     fi
-    ln -fs "$REPO_DIR" /opt/oddslingers.poker
+    ln -fs "$REPO_DIR" /opt/suitedconnectors.poker
 echo "       Installing from $REPO_DIR..."
 
 
@@ -97,14 +97,14 @@ info "[0/8] Setting up basic server environment..."
     mkdir -p /root/.config/fish
     echo '
     set -x fish_greeting ""
-    set -x PATH /opt/oddslingers.poker/bin /usr/lib/postgresql/10/bin $PATH
-    set -x ODDSLINGERS_ENV PROD
+    set -x PATH /opt/suitedconnectors.poker/bin /usr/lib/postgresql/10/bin $PATH
+    set -x SUITEDCONNECTORS_ENV PROD
 
     if not status --is-login
       exit 0
     end
 
-    cd /opt/oddslingers.poker/core
+    cd /opt/suitedconnectors.poker/core
 
     if status --is-login
         set PPID (echo (ps --pid %self -o ppid --no-headers) | xargs)
@@ -117,8 +117,8 @@ info "[0/8] Setting up basic server environment..."
     rm -f /etc/update-motd.d/10-help-text
     rm -f /etc/update-motd.d/50-motd-news
 
-    mv /var/log/auth.log /data/logs/auth.log; ln -s /opt/oddslingers.poker/bin/data/logs/auth.log /var/log/auth.log
-    mv /root/.local/share/fish/fish_history /data/logs/fish.log; ln -s /opt/oddslingers.poker/bin/data/logs/fish.log /root/.local/share/fish/fish_history
+    mv /var/log/auth.log /data/logs/auth.log; ln -s /opt/suitedconnectors.poker/bin/data/logs/auth.log /var/log/auth.log
+    mv /root/.local/share/fish/fish_history /data/logs/fish.log; ln -s /opt/suitedconnectors.poker/bin/data/logs/fish.log /root/.local/share/fish/fish_history
 
     # # Setup ZFS
     # apt install zfsutils-linux
@@ -167,9 +167,9 @@ echo "           Python, postgresql, redis, npm, nginx, (and other utils)"
 
 info "[2/8] Install Oddslingers utility commands..."
     echo "      Add the following to your \$PATH, then press enter once finished:"
-    echo "           /opt/oddslingers.poker/bin"
-    bash -c "which oddslingers" | grep -q /opt/oddslingers/bin || read
-success "   √   'oddslingers' pointed to $(bash -c "which oddslingers") from your \$PATH"
+    echo "           /opt/suitedconnectors.poker/bin"
+    bash -c "which suitedconnectors" | grep -q /opt/suitedconnectors/bin || read
+success "   √   'suitedconnectors' pointed to $(bash -c "which suitedconnectors") from your \$PATH"
 
 
 info "[3/8] Seting up pip + virtualenv..."
@@ -187,17 +187,17 @@ info "[4/8] Installing python dependencies..."
 success "   √   PyPI requirements are installed: requirements.txt"
 
 info "[5/8] Generating certs and linking config files..."
-    sudo bash -c "echo '127.0.0.1     oddslingers.l' >> /etc/hosts"
+    sudo bash -c "echo '127.0.0.1     suitedconnectors.l' >> /etc/hosts"
     sudo bash -c "echo '127.0.0.1     database redis' >> /etc/hosts"
     mkdir -p "$DATA_DIR/certs"
     chown -R root:root "$DATA_DIR/certs"
     cd "$DATA_DIR/certs"
-    openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout oddslingers.com.key -out oddslingers.com.crt -subj "/C=IM/ST=Douglas/L=Douglas/O=OddSlingers/OU=Development/CN=oddslingers.com"
+    openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout suitedconnectors.com.key -out suitedconnectors.com.crt -subj "/C=IM/ST=Douglas/L=Douglas/O=OddSlingers/OU=Development/CN=suitedconnectors.com"
 
-    # open oddslingers.l.crt
+    # open suitedconnectors.l.crt
     rm -f /etc/supervisor/supervisord.conf
-    ln -sf "$REPO_DIR/etc/supervisor/oddslingers-prod.conf" /etc/supervisor/supervisord.conf
-success "   √   Generated SSL certs and set oddslingers.l to 127.0.0.1"
+    ln -sf "$REPO_DIR/etc/supervisor/suitedconnectors-prod.conf" /etc/supervisor/supervisord.conf
+success "   √   Generated SSL certs and set suitedconnectors.l to 127.0.0.1"
 
 info "[6/8] Initializing PostgreSQL database..."
     POSTGRES_PASSWORD=$(openssl rand -base64 14)
@@ -239,12 +239,12 @@ sleep 5
 supervisorctl status all
 
 success " ✅    Done. See README.md for next steps."
-    echo "       - Dev commands can be run using the 'oddslingers' command:"
-    echo "           e.g. oddslingers start"
-    echo "                oddslingers compjs tables.js"
-    echo "                oddslingers resetdb"
+    echo "       - Dev commands can be run using the 'suitedconnectors' command:"
+    echo "           e.g. suitedconnectors start"
+    echo "                suitedconnectors compjs tables.js"
+    echo "                suitedconnectors resetdb"
     echo "       - Config is stored in env/secrets.env and env/dev.env"
-    echo "       - Data is stored in oddslingers.poker/data/"
+    echo "       - Data is stored in suitedconnectors.poker/data/"
     echo ""
 sleep 3
 

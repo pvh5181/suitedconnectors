@@ -1,8 +1,8 @@
 from django.db import models
 from django.conf import settings
 
-from oddslingers.settings import DEFAULT_HOST, DEFAULT_HTTP_PROTOCOL
-from oddslingers.model_utils import BaseModel
+from suitedconnectors.settings import DEFAULT_HOST, DEFAULT_HTTP_PROTOCOL
+from suitedconnectors.model_utils import BaseModel
 
 class TrackedLink(BaseModel):
     key = models.CharField(max_length=16, null=False, db_index=True)

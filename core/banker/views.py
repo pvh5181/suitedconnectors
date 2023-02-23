@@ -7,9 +7,9 @@ from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 
-from oddslingers.models import User, UserBalance
-from oddslingers.model_utils import BaseModel
-from oddslingers.settings import CURRENT_SEASON
+from suitedconnectors.models import User, UserBalance
+from suitedconnectors.model_utils import BaseModel
+from suitedconnectors.settings import CURRENT_SEASON
 from banker.models import BalanceTransfer, Cashier
 from poker.models import PokerTable, Freezeout
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from oddslingers.settings import DEFAULT_HOST, DEFAULT_HTTP_PROTOCOL
+from suitedconnectors.settings import DEFAULT_HOST, DEFAULT_HTTP_PROTOCOL
 
 from linky.views import CAMPAIGNS, create_link
 

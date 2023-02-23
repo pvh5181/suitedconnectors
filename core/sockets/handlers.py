@@ -8,8 +8,8 @@ from django.utils import timezone
 from django.contrib.sessions.models import Session
 from channels.generic.websockets import JsonWebsocketConsumer
 
-from oddslingers.utils import ANSI, debug_print_io, log_io_message
-from oddslingers.models import UserSession
+from suitedconnectors.utils import ANSI, debug_print_io, log_io_message
+from suitedconnectors.models import UserSession
 from .models import Socket
 from .constants import (
     PING_RESPONSE_TYPE,

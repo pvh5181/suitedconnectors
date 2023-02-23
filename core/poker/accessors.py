@@ -6,13 +6,13 @@ from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from oddslingers.utils import (rotated, ExtendedEncoder, idx_dict,
+from suitedconnectors.utils import (rotated, ExtendedEncoder, idx_dict,
                           autocast, decimal_floor, fnv_hash,
                           secure_random_number)
 
 from poker.bot_personalities import bot_personality, DEFAULT_BIO
 from poker.constants import (
-    Event, Action, NL_HOLDEM, PL_OMAHA, NL_BOUNTY,
+    Event, Action, NL_HOLDEM, PL_OMAHA, NL_BOUNTY, SD_NL_HOLDEM, SD_PL_OMAHA, F_PL_OMAHA,
     FOLD_OR_TOGGLE_PENDING, PlayingState, TOURNEY_AUTOFOLD_DELAY,
     NUM_HOLECARDS, ACTIVE_PLAYSTATES, BOUNTY_HANDS,
     BOUNTY_TOURNEY_BBS_TO_CALL, BUMP_AFTER_INACTIVE_MINS,
@@ -20,8 +20,8 @@ from poker.constants import (
 )
 from poker.hand_ranges import hand_to_description
 from poker.models import Player
-from poker.rankings import (best_hand_from_cards, best_hand_using_holecards,
-                            hand_sortkey)
+from poker.rankings import (best_hand_from_cards, best_hand_from_cards_shortdeck, best_hand_using_holecards, best_hand_using_holecards_shortdeck,
+                            hand_sortkey, hand_sortkey_shortdeck)
 from poker.megaphone import player_sockets
 
 from sidebets.models import Sidebet
@@ -88,7 +88,7 @@ class PokerAccessor:
         if self.table.created_by:
             created_by = self.table.created_by.username
         else:
-            created_by = 'OddSlingers'
+            created_by = 'SuitedConnectors'
 
         return {
             'id': str(self.table.id),
@@ -1327,11 +1327,46 @@ class HoldemAccessor(PokerAccessor):
     """Default poker is hold'em, so no need to override anything"""
     pass
 
+class SDHoldemAccessor(PokerAccessor):
+    def player_hand(self, player: Player):
+        return best_hand_from_cards_shortdeck(player.cards + self.table.board)
+
+    def winners(self, showdown_players):
+        losers = list(showdown_players)
+        handrank = lambda plyr: hand_sortkey_shortdeck(self.player_hand(plyr))
+        losers.sort(key=handrank)
+        table_winners = [losers.pop()]
+        winning_handrank = handrank(table_winners[0])
+
+        while losers and handrank(losers[-1]) == winning_handrank:
+            table_winners.append(losers.pop())
+
+        return table_winners
 
 class OmahaAccessor(PokerAccessor):
     def player_hand(self, player: Player):
         return best_hand_using_holecards(player.cards, self.table.board)
 
+class SDOmahaAccessor(PokerAccessor):
+    def player_hand(self, player: Player):
+        return best_hand_using_holecards_shortdeck(player.cards, self.table.board)
+
+    def winners(self, showdown_players):
+        losers = list(showdown_players)
+        handrank = lambda plyr: hand_sortkey_shortdeck(self.player_hand(plyr))
+        losers.sort(key=handrank)
+        table_winners = [losers.pop()]
+        winning_handrank = handrank(table_winners[0])
+
+        while losers and handrank(losers[-1]) == winning_handrank:
+            table_winners.append(losers.pop())
+
+        return table_winners
+
+
+class FiveCardOmahaAccessor(PokerAccessor):
+    def player_hand(self, player: Player):
+        return best_hand_using_holecards(player.cards, self.table.board)
 
 class BountyAccessor(PokerAccessor):
     def bounty_call_amt(self, player, winner):
@@ -1438,6 +1473,16 @@ class HoldemFreezeoutAccessor(FreezeoutAccessor, HoldemAccessor):
 class OmahaFreezeoutAccessor(FreezeoutAccessor, OmahaAccessor):
     pass
 
+class SDHoldemFreezeoutAccessor(FreezeoutAccessor, SDHoldemAccessor):
+    pass
+
+
+class SDOmahaFreezeoutAccessor(FreezeoutAccessor, SDOmahaAccessor):
+    pass
+
+class FiveCardOmahaFreezeoutAccessor(FreezeoutAccessor, SDOmahaAccessor):
+    pass
+
 
 class BountyFreezeoutAccessor(FreezeoutAccessor, BountyAccessor):
     def bounty_call_amt(self, player, _):
@@ -1461,3 +1506,17 @@ def accessor_type_for_table(table):
             return OmahaFreezeoutAccessor
         return OmahaAccessor
 
+    if table.table_type == SD_PL_OMAHA:
+        if table.tournament:
+            return SDOmahaFreezeoutAccessor
+        return SDOmahaAccessor
+
+    if table.table_type == F_PL_OMAHA:
+        if table.tournament:
+            return FiveCardOmahaFreezeoutAccessor
+        return FiveCardOmahaAccessor
+
+    if table.table_type == SD_NL_HOLDEM:
+        if table.tournament:
+            return SDHoldemFreezeoutAccessor
+        return SDHoldemAccessor

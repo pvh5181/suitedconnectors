@@ -11,10 +11,10 @@ from poker.constants import (
     TOURNEY_BUYIN_TIMES, N_BB_TO_NEXT_LEVEL,
 )
 
-from oddslingers.model_utils import BaseModel
-from oddslingers.models import User
-from oddslingers.tasks import track_analytics_event
-from oddslingers.mutations import MutationList, increase_games_level
+from suitedconnectors.model_utils import BaseModel
+from suitedconnectors.models import User
+from suitedconnectors.tasks import track_analytics_event
+from suitedconnectors.mutations import MutationList, increase_games_level
 
 
 

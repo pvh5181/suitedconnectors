@@ -1,4 +1,4 @@
-from oddslingers.utils import secure_random_number
+from suitedconnectors.utils import secure_random_number
 
 def to_cards(hand):
     if isinstance(hand, str):
@@ -21,7 +21,7 @@ def pluralize(card_or_rank):
     else:
         return rankname + 's'
 
-
+SHORT_RANKS = ('6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 SUITS = ('c', 'd', 'h', 's')
 PRETTY_SUITS = {
@@ -129,7 +129,7 @@ class Card:
 
 
 class Deck:
-    def __init__(self, cards=None):
+    def __init__(self, cards=None, isSD=False):
         if cards:
             if type(cards[0]) in (int, str):
                 self.cards = [Card(card) for card in cards]
@@ -137,10 +137,14 @@ class Deck:
                 self.cards = cards
         else:
             self.cards = []
-
-            for suit in SUITS:
-                for rank in RANKS:
-                    self.cards.append(Card(rank, suit))
+            if (isSD):
+                for suit in SUITS:
+                    for rank in SHORT_RANKS:
+                        self.cards.append(Card(rank, suit))
+            else:
+                for suit in SUITS:
+                    for rank in RANKS:
+                        self.cards.append(Card(rank, suit))
 
             self.shuffle()
 

@@ -2,9 +2,9 @@ from datetime import timedelta
 from decimal import Decimal
 from django.utils import timezone
 
-from oddslingers.tests.test_utils import TimezoneMocker
-from oddslingers.subscribers import UserStatsSubscriber
-from oddslingers.mutations import execute_mutations
+from suitedconnectors.tests.test_utils import TimezoneMocker
+from suitedconnectors.subscribers import UserStatsSubscriber
+from suitedconnectors.mutations import execute_mutations
 
 from poker.subscribers import (
     ChatSubscriber, AnimationSubscriber,

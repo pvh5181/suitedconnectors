@@ -14,8 +14,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from oddslingers.utils import autocast, DEBUG_ONLY, ExtendedEncoder
-from oddslingers.model_utils import BaseModel, DispatchHandlerModel
+from suitedconnectors.utils import autocast, DEBUG_ONLY, ExtendedEncoder
+from suitedconnectors.model_utils import BaseModel, DispatchHandlerModel
 
 from sockets.models import Socket
 
@@ -332,7 +332,7 @@ class PokerTable(BaseModel, DispatchHandlerModel):
     board_str = models.CharField(max_length=256, null=True, blank=True)
 
     # number of decimal places we want to use to keep track of chip fractions
-    precision = models.IntegerField(default=0)
+    precision = models.IntegerField(default=2)
 
     # hand history
     hand_number = models.IntegerField(default=0)

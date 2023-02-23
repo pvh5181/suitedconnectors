@@ -4,8 +4,8 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 from django.db.models import F
 
-from oddslingers.models import UserBalance
-from oddslingers.mutations import Mutation, MutationList
+from suitedconnectors.models import UserBalance
+from suitedconnectors.mutations import Mutation, MutationList
 
 from banker.models import BalanceTransfer, Cashier
 

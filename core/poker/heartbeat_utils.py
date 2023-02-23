@@ -9,8 +9,8 @@ from contextlib import contextmanager
 from django import db
 from django.conf import settings
 
-from oddslingers.utils import ANSI, to_json_str, is_testing
-from oddslingers.system import DOUBLE_FORK
+from suitedconnectors.utils import ANSI, to_json_str, is_testing
+from suitedconnectors.system import DOUBLE_FORK
 
 logger = logging.getLogger('heartbeat')
 redis_queue = redis.Redis(**settings.REDIS_CONF)

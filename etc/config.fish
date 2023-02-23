@@ -1,18 +1,18 @@
-cd /opt/oddslingers/core
+cd /opt/suitedconnectors/core
 
 set -x fish_greeting ""
-set -x PATH /opt/oddslingers/bin ./node_modules/.bin $PATH
+set -x PATH /opt/suitedconnectors/bin ./node_modules/.bin $PATH
 
-if test -z "$ODDSLINGERS_ENV"
-    echo "You must set ODDSLINGERS_ENV in /etc/environment!!"
+if test -z "$SUITEDCONNECTORS_ENV"
+    echo "You must set SUITEDCONNECTORS_ENV in /etc/environment!!"
 end
 
 set -x HOSTNAME (hostname)
-set -x LOGINS_HISTORY /opt/oddslingers/data/logs/ssh.log
-set -x TMUX_HISTORY /opt/oddslingers/data/logs/tmux.log
-set -x FISH_HISTORY /opt/oddslingers/data/logs/fish.log
+set -x LOGINS_HISTORY /opt/suitedconnectors/data/logs/ssh.log
+set -x TMUX_HISTORY /opt/suitedconnectors/data/logs/tmux.log
+set -x FISH_HISTORY /opt/suitedconnectors/data/logs/fish.log
 # DJANGO_SHELL_LOG path can be found in settings.DJANGO_SHELL_LOG
-ln -f -s /root/.local/share/fish/fish_history /opt/oddslingers/data/logs/fish.log
+ln -f -s /root/.local/share/fish/fish_history /opt/suitedconnectors/data/logs/fish.log
 
 set -q REMOTEUSER; or set -x REMOTEUSER "root"
 set -q SSH_CONNECTION; or set -x REMOTEUSER "local fish shell"
@@ -22,21 +22,21 @@ set -x CONNECTION_STR "Logged in user: $REMOTEUSER@$HOSTNAME ($SSH_CONNECTION) a
 set -x HELP_STR "
 Useful commands:
     supervisorctl status
-    oddslingers-server deploy [beta|prod]
-    oddslingers-server shell
-    oddslingers-server manage [command]
-    oddslingers-server backup
-    oddslingers-server help
+    suitedconnectors-server deploy [beta|prod]
+    suitedconnectors-server shell
+    suitedconnectors-server manage [command]
+    suitedconnectors-server backup
+    suitedconnectors-server help
 
 Useful directories:
-    /opt/oddslingers/data
-    /opt/oddslingers/data/logs
-    /opt/oddslingers/data/backups
-    /opt/oddslingers/data/support_tickets
+    /opt/suitedconnectors/data
+    /opt/suitedconnectors/data/logs
+    /opt/suitedconnectors/data/backups
+    /opt/suitedconnectors/data/support_tickets
 
 (If you dont see input or output when typing, run your command in bash instead.)
 
-https://github.com/monadical-sas/oddslingers.poker/wiki/Production-Environment
+https://github.com/monadical-sas/suitedconnectors.poker/wiki/Production-Environment
 -------------------------------------------------------------"
 
 
@@ -74,12 +74,12 @@ if test -z "$INSIDE_SCRIPT"
         echo "$CONNECTION_STR. Activity is logged to $FISH_HISTORY" >> $LOGINS_HISTORY
     else
         echo "[+] New login:      $REMOTEUSER@$HOSTNAME ($SSH_CONNECTION) at "(date)
-        echo "[>] Admin logs:     /opt/oddslingers/data/logs/ssh.log, fish.log, tmux.log, django_shell.log"
+        echo "[>] Admin logs:     /opt/suitedconnectors/data/logs/ssh.log, fish.log, tmux.log, django_shell.log"
         echo "[i] System uptime: "(uptime)
         echo "[i] Disk usage:     "(df -h / | tail -n 1 | awk '{print $5}')
         echo "------------------------------------------------------------"
         echo -e "$HELP_STR"
-        echo "[!] Most recent backup: "(ls -Artls /opt/oddslingers/data/backups/ | tail -n 1 | awk '{print $7,$8,$9,$10}')
+        echo "[!] Most recent backup: "(ls -Artls /opt/suitedconnectors/data/backups/ | tail -n 1 | awk '{print $7,$8,$9,$10}')
         echo ""
         env INSIDE_SCRIPT=1 script -e -f -q -a $TMUX_HISTORY; and kill %self
     end

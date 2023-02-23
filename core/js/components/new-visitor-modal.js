@@ -25,7 +25,7 @@ export const NewVisitorModal = () => (
         <Modal aria-labelledby="contained-modal-title-sm" show id="new-visitor-modal" onClick={hideNewVisitorModal}>
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-sm" style={{fontFamily:'Bungee', textAlign: 'center'}}>
-                    Welcome to Oddslingers Poker!
+                    Welcome to SuitedConnectors Poker!
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

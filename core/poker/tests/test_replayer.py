@@ -3,7 +3,7 @@ import os
 
 from django.test import TestCase
 
-from oddslingers.settings import DEBUG_DUMP_DIR
+from suitedconnectors.settings import DEBUG_DUMP_DIR
 
 from poker.constants import HH_TEST_PATH, PLAYER_REFRESH_FIELDS
 from poker.replayer import EventReplayer, ActionReplayer

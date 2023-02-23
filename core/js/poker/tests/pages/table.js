@@ -5,8 +5,8 @@ import {Table} from '@/pages/table'
 
 const EXAMPLE_PROPS = {
     "url_name":"Home",
-    "url":"http://oddslingers.l/",
-    "domain":"oddslingers.l",
+    "url":"http://suitedconnectors.l/",
+    "domain":"suitedconnectors.l",
     "view":"ui.views.pages.Home",
     "DEBUG":true,
     "GIT_SHA":"6a678584cf8533ceef7e90f32179cb5d37a37669",

@@ -54,7 +54,7 @@ class BaseSupportTest(TestCase):
 
     def tearDown(self):
         for ticket in SupportTicket.objects.all():
-            prod_or_beta = settings.ODDSLINGERS_ENV in ('PROD', 'BETA')
+            prod_or_beta = settings.SUITEDCONNECTORS_ENV in ('PROD', 'BETA')
             if prod_or_beta or not settings.DEBUG:
                 # don't run this on prod or beta, as it may dangerously
                 # delete any tickets that share a short id with test db tickets
