@@ -86,7 +86,7 @@ export const center = (str, width, padding) => {
         return str + ''
 }
 
-export const round = (num, decimal_places=0) =>
+export const round = (num, decimal_places=2) =>
     Math.round(num * (10**decimal_places)) / (10**decimal_places)
 
 

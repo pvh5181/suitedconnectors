@@ -343,6 +343,8 @@ class HoldemController(GameController):
     # synchronous-only actions
     @autocast
     def bet(self, player_id: str, amt: Decimal, **kwargs) -> EventList:
+
+
         amt = self.accessor.round_wager(amt)
         player = self.accessor.player_by_player_id(player_id)
         if (amt > player.stack
@@ -356,6 +358,7 @@ class HoldemController(GameController):
 
     @autocast
     def raise_to(self, player_id: str, amt: Decimal, **kwargs) -> EventList:
+
         amt = self.accessor.round_wager(amt)
         player = self.accessor.player_by_player_id(player_id)
         min_amt = self.accessor.min_bet_amt()

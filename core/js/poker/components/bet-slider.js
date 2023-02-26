@@ -64,7 +64,7 @@ export const bet_amounts = ({uncollected_bets, amt_to_call, min_bet,
 
     const amt_to_call_wagers = including_wagers(amt_to_call)
     const potsize_with_call = total_pot + amt_to_call
-    const half = adjust_bet(amt_to_call_wagers + (1/2)*potsize_with_call), table_sb)
+    const half = adjust_bet((amt_to_call_wagers + (1/2)*potsize_with_call), table_sb)
     const two_thirds = adjust_bet((amt_to_call_wagers + (2/3)*potsize_with_call), table_sb)
     const pot_raise = adjust_bet((amt_to_call_wagers + potsize_with_call), table_sb)
     const is_pot_limit = table_variant.includes('Pot Limit')
