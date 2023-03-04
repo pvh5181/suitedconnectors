@@ -140,6 +140,14 @@ class ChatSubscriber(Subscriber):
                 'speaker': 'Dealer',
                 'msg': f'{subj.username} checked'
             })
+        elif event == Event.READ_HAND:
+            if self.cards_dealt_chat.get(kwargs["player"]):
+                self.cards_dealt_chat[kwargs["player"]]['msg'] += kwargs["msg"]
+            else:
+                self.cards_dealt_chat[kwargs["player"]] = {
+                    'speaker': 'Dealer',
+                    'msg': f'You have {kwargs["msg"]}'
+                }
         elif event == Event.DEAL and isinstance(subj, Player):
             if self.cards_dealt_chat.get(subj):
                 pretty_card = kwargs["card"].pretty()
@@ -189,6 +197,7 @@ class ChatSubscriber(Subscriber):
             self.to_broadcast['all']['chat'].append(
                 json_for_chatline(chat_line, accessor=self.accessor)
             )
+
 
         for player, deal_chat in self.cards_dealt_chat.items():
             chat_line = self.create_chatline(**deal_chat)
@@ -467,6 +476,7 @@ class TableStatsSubscriber(Subscriber):
     def __init__(self, accessor):
         self.accessor = accessor
         self.table_stats = accessor.table.stats
+
 
     def dispatch(self, subj, event, changes=None, **kwargs):
         self.table_stats.avg_stack = self._get_avg_stack()

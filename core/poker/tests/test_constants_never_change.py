@@ -86,6 +86,7 @@ class ConstantsTest(TestCase):
             Event.CREATE_SIDEBET: 53,
             Event.CLOSE_SIDEBET: 54,
             Event.SHUFFLE: 55,
+            Event.READ_HAND: 56,
         }
         self.enforce_consistency(Event, event)
 

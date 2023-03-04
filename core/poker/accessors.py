@@ -1407,6 +1407,11 @@ class IrishAccessor(PokerAccessor):
     def __init__(self):
         raise NotImplementedError('Irish is not yet implemented.')
 
+    """
+    def post_flop(self):
+        pick 2 cards to keep 
+        
+    """
 
 class FreezeoutAccessor:
     def _unseated_actions(self):

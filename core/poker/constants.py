@@ -17,9 +17,10 @@ TABLE_TYPES = (
     (NL_HOLDEM, 'No Limit Hold \'em'),
     (PL_OMAHA, 'Pot Limit Omaha'),
     (NL_BOUNTY, 'No Limit Bounty'),
-    #(F_PL_OMAHA, 'Five Card Pot Limit Omaha'), #commented out so bots dont make tables
-    #(SD_NL_HOLDEM, 'Short Deck No Limit Hold \'em'), #commented out so bots dont make tables
-    #(SD_PL_OMAHA, 'Short Deck Pot Limit Omaha'), #commented out so bots dont make tables
+    (F_PL_OMAHA, 'Five Card Pot Limit Omaha'),
+    (SD_NL_HOLDEM, 'Short Deck No Limit Hold \'em'),
+    (SD_PL_OMAHA, 'Short Deck Pot Limit Omaha'),
+    #(NL_IRISH, 'No Limit Irish'),
     #(FIVE_STUD, 'Five Card Stud'),
     #(SEVEN_STUD, 'Seven Card Stud'),
 )
@@ -134,6 +135,7 @@ class Event(StrBasedEnum):
     CREATE_SIDEBET = 53
     CLOSE_SIDEBET = 54
     SHUFFLE = 55
+    READ_HAND = 56
 
 
 # all chip movements will get to the front end with an 'amt' keyword

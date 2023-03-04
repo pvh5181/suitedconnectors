@@ -244,7 +244,8 @@ class GameController:
                                  Event.CREATE_TRANSFER,
                                  Event.SHOWDOWN_COMPLETE,
                                  Event.CREATE_SIDEBET,
-                                 Event.CLOSE_SIDEBET,):
+                                 Event.CLOSE_SIDEBET,
+                                 Event.READ_HAND,):
                         # used by subscribers
                         pass
                     else:
@@ -343,7 +344,6 @@ class HoldemController(GameController):
     # synchronous-only actions
     @autocast
     def bet(self, player_id: str, amt: Decimal, **kwargs) -> EventList:
-
 
         amt = self.accessor.round_wager(amt)
         player = self.accessor.player_by_player_id(player_id)
@@ -1074,6 +1074,23 @@ class HoldemController(GameController):
         msg = f'FLOP: {flop_str}'
         self.internal_dispatch([self._dealer_msg_event(msg)])
 
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+        """
+                events = [
+            (player, Event.DEAL, {'card': cards_to_deal.pop()})
+            for _ in range(n_holecards)
+                for player in players
+        ]
+        
+                return SIDE_EFFECT_SUBJ, Event.CHAT, {
+            'speaker': speaker or 'Dealer',
+            'msg': msg,
+        }
+        """
+
     def deal_turn(self):
         table = self.table
         events = self.reset_for_new_street()
@@ -1084,6 +1101,11 @@ class HoldemController(GameController):
         msg = f'TURN: {flop_str}, [{turn_str}]'
         self.internal_dispatch([self._dealer_msg_event(msg)])
 
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+
     def deal_river(self):
         table = self.table
         events = self.reset_for_new_street()
@@ -1093,6 +1115,11 @@ class HoldemController(GameController):
         river_str = table.board[4].pretty()
         msg = f'RIVER: {flop_and_turn}, [{river_str}]'
         self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
 
     def end_hand(self):
         self.internal_dispatch(self.return_uncalled_bets())
@@ -1895,7 +1922,12 @@ class HoldemController(GameController):
             'msg': msg,
         }
 
-
+    def _personal_msg_event(self, msg, player, speaker=None):
+        return SIDE_EFFECT_SUBJ, Event.READ_HAND, {
+            'player': player,
+            'speaker': speaker or 'Dealer',
+            'msg': msg,
+        }
 class ShortDeckHoldemController(HoldemController):
     expected_tabletype = SD_NL_HOLDEM
 
@@ -1956,6 +1988,49 @@ class ShortDeckHoldemController(HoldemController):
             (SIDE_EFFECT_SUBJ, Event.NEW_HAND, {}),
         ]
 
+
+    def deal_flop(self):
+        events = self.reset_for_new_street()
+        events += self.deal_to_board(3)
+        self.internal_dispatch(events)
+        flop_str = ', '.join(c.pretty() for c in self.table.board)
+        msg = f'FLOP: {flop_str}'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name_shortdeck(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+
+    def deal_turn(self):
+        table = self.table
+        events = self.reset_for_new_street()
+        events += self.deal_to_board(1)
+        self.internal_dispatch(events)
+        flop_str = ', '.join(c.pretty() for c in table.board[:3])
+        turn_str = table.board[3].pretty()
+        msg = f'TURN: {flop_str}, [{turn_str}]'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name_shortdeck(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+
+    def deal_river(self):
+        table = self.table
+        events = self.reset_for_new_street()
+        events += self.deal_to_board(1)
+        self.internal_dispatch(events)
+        flop_and_turn = ', '.join(c.pretty() for c in table.board[:4])
+        river_str = table.board[4].pretty()
+        msg = f'RIVER: {flop_and_turn}, [{river_str}]'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name_shortdeck(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
 
 
     def showdown_win_events(self, showdown_winnings_for_pot):
@@ -2176,7 +2251,50 @@ class ShortDeckOmahaController(HoldemController):
                 self.internal_dispatch(self.post_and_deal())
                 self.step()
 
+    """
+    def deal_flop(self):
+        events = self.reset_for_new_street()
+        events += self.deal_to_board(3)
+        self.internal_dispatch(events)
+        flop_str = ', '.join(c.pretty() for c in self.table.board)
+        msg = f'FLOP: {flop_str}'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
 
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name_shortdeck(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+
+    def deal_turn(self):
+        table = self.table
+        events = self.reset_for_new_street()
+        events += self.deal_to_board(1)
+        self.internal_dispatch(events)
+        flop_str = ', '.join(c.pretty() for c in table.board[:3])
+        turn_str = table.board[3].pretty()
+        msg = f'TURN: {flop_str}, [{turn_str}]'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name_shortdeck(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+
+    def deal_river(self):
+        table = self.table
+        events = self.reset_for_new_street()
+        events += self.deal_to_board(1)
+        self.internal_dispatch(events)
+        flop_and_turn = ', '.join(c.pretty() for c in table.board[:4])
+        river_str = table.board[4].pretty()
+        msg = f'RIVER: {flop_and_turn}, [{river_str}]'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name_shortdeck(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+    """
     def shuffle_and_start_new_hand(self, mocked_deck_str=None):
         if mocked_deck_str:
             #self.assert_testing_or_mock() TODO(#1): remove this implementation of short deck, make it implemented at deck creation level
