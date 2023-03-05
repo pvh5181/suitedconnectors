@@ -21,7 +21,7 @@ from sockets.models import Socket
 from poker import rankings
 from poker.accessors import PokerAccessor, accessor_type_for_table
 from poker.constants import (
-    Event, Action, NEW_HAND_STR, NL_HOLDEM, PL_OMAHA, NL_BOUNTY, F_PL_OMAHA, SD_PL_OMAHA, SD_NL_HOLDEM,
+    Event, Action, NEW_HAND_STR, NL_HOLDEM, PL_OMAHA, NL_BOUNTY, F_PL_OMAHA, SD_PL_OMAHA, NL_IRISH, SD_NL_HOLDEM,
     SIDE_EFFECT_SUBJ, ANIMATION_DELAYS,
     NUM_HOLECARDS, PlayingState, BLINDS_SCHEDULE,
     HANDS_TO_INCREASE_BLINDS, SIDEBET_ACTIONS, VISIBLE_ACTIONS
@@ -2168,6 +2168,31 @@ class BountyController(HoldemController):
             return True
         return False
 
+
+
+
+class NLIrishController(HoldemController):
+    expected_tabletype = NL_IRISH
+    def deal_flop(self):
+
+        events = self.reset_for_new_street()
+        events += self.remove_cards()
+        events += self.deal_to_board(3)
+        self.internal_dispatch(events)
+        flop_str = ', '.join(c.pretty() for c in self.table.board)
+        msg = f'FLOP: {flop_str}'
+        self.internal_dispatch([self._dealer_msg_event(msg)])
+
+        for plyr in self.accessor.seated_players():
+            hand = self.accessor.player_hand(plyr)
+            hand_name = rankings.hand_to_name(hand)
+            self.internal_dispatch([self._personal_msg_event(hand_name, plyr)])
+
+    def remove_cards(self, player_id: str, card1: int, card2: int, **kwargs):
+        player = self.accessor.player_by_player_id(player_id)
+        return [
+                (player, Event.REMOVE_CARDS, {'card1': card1, 'card2': card2})
+            ]
 class FiveCardOmahaController(HoldemController):
     expected_tabletype = F_PL_OMAHA
     @autocast
@@ -2200,7 +2225,6 @@ class FiveCardOmahaController(HoldemController):
             (player, Event.RAISE_TO, {'amt': amt, 'all_in': all_in}),
             *self.timing_events(player, Action.RAISE_TO)
         ]
-
 
 class ShortDeckOmahaController(HoldemController):
     expected_tabletype = SD_PL_OMAHA
@@ -2628,6 +2652,8 @@ class HoldemFreezeoutController(FreezeoutController, HoldemController):
 class OmahaFreezeoutController(FreezeoutController, OmahaController):
     pass
 
+class NLIrishFreezeoutController(FreezeoutController, OmahaController):
+    pass
 class ShortDeckHoldemFreezeoutController(FreezeoutController, ShortDeckHoldemController):
     pass
 
@@ -2658,6 +2684,12 @@ def controller_type_for_table(table: PokerTable) -> Type[GameController]:
 
     if table.table_type == PL_OMAHA and table.tournament is not None:
         return OmahaFreezeoutController
+
+    if table.table_type == NL_IRISH and table.tournament is not None:
+        return NLIrishFreezeoutController
+
+    if table.table_type == NL_IRISH and table.tournament is None:
+        return NLIrishController
 
     if table.table_type == F_PL_OMAHA and table.tournament is None:
         return FiveCardOmahaController

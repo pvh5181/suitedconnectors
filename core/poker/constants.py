@@ -12,6 +12,7 @@ NL_BOUNTY = 'BNTY'
 F_PL_OMAHA = 'FPLO'
 SD_PL_OMAHA = 'SDPLO'
 SD_NL_HOLDEM = 'SDNLHE'
+NL_IRISH = 'IRNLHE'
 
 TABLE_TYPES = (
     (NL_HOLDEM, 'No Limit Hold \'em'),
@@ -20,7 +21,7 @@ TABLE_TYPES = (
     (F_PL_OMAHA, 'Five Card Pot Limit Omaha'),
     (SD_NL_HOLDEM, 'Short Deck No Limit Hold \'em'),
     (SD_PL_OMAHA, 'Short Deck Pot Limit Omaha'),
-    #(NL_IRISH, 'No Limit Irish'),
+    (NL_IRISH, 'No Limit Irish'),
     #(FIVE_STUD, 'Five Card Stud'),
     #(SEVEN_STUD, 'Seven Card Stud'),
 )
@@ -29,6 +30,7 @@ NUM_HOLECARDS = {
     NL_HOLDEM: 2,
     NL_BOUNTY: 2,
     PL_OMAHA: 4,
+    NL_IRISH: 4,
     SD_NL_HOLDEM: 2,
     SD_PL_OMAHA: 4,
     F_PL_OMAHA: 5,
@@ -83,6 +85,7 @@ class Action(StrBasedEnum):
     SET_PRESET_CALL = 19
     CREATE_SIDEBET = 20
     CLOSE_SIDEBET = 21
+    REMOVE_CARDS = 22
 
 # Events are the controller's internal state change interface
 class Event(StrBasedEnum):
@@ -136,6 +139,7 @@ class Event(StrBasedEnum):
     CLOSE_SIDEBET = 54
     SHUFFLE = 55
     READ_HAND = 56
+    REMOVE_CARDS = 57
 
 
 # all chip movements will get to the front end with an 'amt' keyword
@@ -275,10 +279,10 @@ PLAYER_API = (
     Event.TAKE_SEAT, Event.LEAVE_SEAT, Event.SIT_IN, Event.SIT_OUT,
     Event.BET, Event.RAISE_TO, Event.CALL, Event.CHECK, Event.FOLD,
     Event.BUY, Event.SIT_IN_AT_BLINDS, Event.SIT_OUT_AT_BLINDS,
-    Event.SET_AUTO_REBUY)
+    Event.SET_AUTO_REBUY, Event.REMOVE_CARDS)
 
 ACTIVE_ACTIONS = (Action.FOLD, Action.BET, Action.RAISE_TO, Action.CALL,
-                  Action.CHECK)
+                  Action.CHECK, Action.REMOVE_CARDS)
 
 VISIBLE_ACTIONS = (
     *ACTIVE_ACTIONS, Action.SIT_OUT, Action.SIT_IN, Action.LEAVE_SEAT

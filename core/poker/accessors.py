@@ -12,7 +12,7 @@ from suitedconnectors.utils import (rotated, ExtendedEncoder, idx_dict,
 
 from poker.bot_personalities import bot_personality, DEFAULT_BIO
 from poker.constants import (
-    Event, Action, NL_HOLDEM, PL_OMAHA, NL_BOUNTY, SD_NL_HOLDEM, SD_PL_OMAHA, F_PL_OMAHA,
+    Event, Action, NL_HOLDEM, PL_OMAHA, NL_BOUNTY, SD_NL_HOLDEM, SD_PL_OMAHA, NL_IRISH, F_PL_OMAHA,
     FOLD_OR_TOGGLE_PENDING, PlayingState, TOURNEY_AUTOFOLD_DELAY,
     NUM_HOLECARDS, ACTIVE_PLAYSTATES, BOUNTY_HANDS,
     BOUNTY_TOURNEY_BBS_TO_CALL, BUMP_AFTER_INACTIVE_MINS,
@@ -1400,18 +1400,9 @@ class BountyAccessor(PokerAccessor):
 
         return super().next_to_act()
 
-
-class IrishAccessor(PokerAccessor):
-    """Accessor methods that need to change for irish poker"""
-
-    def __init__(self):
-        raise NotImplementedError('Irish is not yet implemented.')
-
-    """
-    def post_flop(self):
-        pick 2 cards to keep 
-        
-    """
+class NLIrishAccessor(PokerAccessor):
+    def player_hand(self, player: Player):
+        return best_hand_using_holecards(player.cards, self.table.board)
 
 class FreezeoutAccessor:
     def _unseated_actions(self):
@@ -1478,6 +1469,9 @@ class HoldemFreezeoutAccessor(FreezeoutAccessor, HoldemAccessor):
 class OmahaFreezeoutAccessor(FreezeoutAccessor, OmahaAccessor):
     pass
 
+class NLIrishFreezeoutAccessor(FreezeoutAccessor, OmahaAccessor):
+    pass
+
 class SDHoldemFreezeoutAccessor(FreezeoutAccessor, SDHoldemAccessor):
     pass
 
@@ -1515,6 +1509,11 @@ def accessor_type_for_table(table):
         if table.tournament:
             return SDOmahaFreezeoutAccessor
         return SDOmahaAccessor
+
+    if table.table_type == NL_IRISH:
+        if table.tournament:
+            return NLIrishFreezeoutAccessor
+        return NLIrishAccessor
 
     if table.table_type == F_PL_OMAHA:
         if table.tournament:

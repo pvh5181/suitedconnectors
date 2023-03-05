@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='pokertable',
             name='table_type',
-            field=models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('BNTY', 'No Limit Bounty'), ('SDNLHE', "Short Deck No Limit Hold 'em"), ('SDPLO', 'Short Deck No Limit Bounty')], default='NLHE', max_length=10),
+            field=models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('BNTY', 'No Limit Bounty'), ('IRNLHE', 'No Limit Irish'),('SDNLHE', "Short Deck No Limit Hold 'em"), ('SDPLO', 'Short Deck No Limit Bounty')], default='NLHE', max_length=10),
         ),
         migrations.AlterField(
             model_name='pokertournament',
             name='game_variant',
-            field=models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('BNTY', 'No Limit Bounty'), ('SDNLHE', "Short Deck No Limit Hold 'em"), ('SDPLO', 'Short Deck No Limit Bounty')], default='NLHE', max_length=10),
+            field=models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('BNTY', 'No Limit Bounty'), ('IRNLHE', 'No Limit Irish'), ('SDNLHE', "Short Deck No Limit Hold 'em"), ('SDPLO', 'Short Deck No Limit Bounty')], default='NLHE', max_length=10),
         ),
     ]

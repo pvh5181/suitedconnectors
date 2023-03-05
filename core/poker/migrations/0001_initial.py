@@ -106,7 +106,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.CharField(default='Homepage Table', max_length=256, unique=True)),
                 ('is_mock', models.BooleanField(default=False)),
-                ('table_type', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', "Five Card Pot Limit Omaha"),  ('SDNLHE', "No Limit Hold 'em"), ('SDPLO', 'Pot Limit Omaha'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
+                ('table_type', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', "Five Card Pot Limit Omaha"),  ('SDNLHE', "Short Deck No Limit Hold 'em"), ('SDPLO', 'Short Deck Pot Limit Omaha'), ('IRNLHE', 'Irish No Limit'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
                 ('ante', models.DecimalField(blank=True, decimal_places=2, max_digits=20, null=True)),
                 ('min_buyin', models.DecimalField(decimal_places=2, default=100, max_digits=20)),
                 ('max_buyin', models.DecimalField(decimal_places=2, default=400, max_digits=20)),
@@ -139,7 +139,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.CharField(default='Tournament', max_length=256)),
-                ('game_variant', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('SDNLHE', "No Limit Hold 'em"), ('SDPLO', 'Pot Limit Omaha'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
+                ('game_variant', models.CharField(choices=[('NLHE', "No Limit Hold 'em"), ('PLO', 'Pot Limit Omaha'), ('FPLO', 'Five Card Pot Limit Omaha'), ('SDNLHE', "No Limit Hold 'em"), ('SDPLO', 'Pot Limit Omaha'), ('IRNLHE', 'Short Deck No Limit'), ('BNTY', 'No Limit Bounty')], default='NLHE', max_length=10)),
                 ('buyin_amt', models.DecimalField(decimal_places=2, max_digits=20)),
                 ('start_time', models.DateTimeField(null=True)),
             ],

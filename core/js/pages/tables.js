@@ -530,6 +530,7 @@ const TableForm = ({onNewTable, cashGameBBs, thresholdBBEmailVerified, state}) =
                             <option value="FPLO">Five Card Pot Limit Omaha</option>
                             <option value="SDNLHE">Short Deck No Limit Hold'em</option>
                             <option value="SDPLO">Short Deck Pot Limit Omaha</option>
+                            <option value="IRNLHE">Irish No Limit</option>
                         </select>
                     </div>
                     <div id='new-table-column'>
@@ -620,6 +621,7 @@ const TournamentForm = ({onNewTable, tourneyBuyinAmts, state}) =>
                     <option value="FPLO">Five Card Pot Limit Omaha</option>
                     <option value="SDNLHE">Short Deck No Limit Hold'em</option>
                     <option value="SDPLO">Short Deck Pot Limit Omaha</option>
+                    <option value="IRNLHE">Short Deck Pot Limit Omaha</option>
                 </select>
                 <br/>
                 <br/>

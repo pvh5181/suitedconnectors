@@ -142,7 +142,8 @@ class HandHistoryLog:
                      .format(**table),
             'table_info': '({sb}/{bb} {num_seats}-max {table_type})'
                           .format(**table),
-            'history': []
+            'history': [],
+            'buy-history': []
 
         }
         for event_line in hand['events']:
@@ -165,8 +166,8 @@ class HandHistoryLog:
             elif event == 'RAISE_TO':
                 msg = f'{subj} raised to {args["amt"]} chips'
                 output['history'].append(msg)
-            # elif event == 'UPDATE_STACK':
-            #     output['history'].append(f'{subj} added {args["amt"]} chips')
+            elif event == 'UPDATE_STACK':
+                 output['buy-history'].append(f'{subj} added {args["amt"]} chips')
 
         return output
 
