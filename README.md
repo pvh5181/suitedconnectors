@@ -1,4 +1,4 @@
-# Oddslingers Gaming [![Codecov](https://codecov.io/gh/monadical-sas/suitedconnectors.poker/branch/dev/graph/badge.svg?token=FUrKdNe6wp)](https://codecov.io/gh/monadical-sas/suitedconnectors.poker) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+# SuitedConnectors Gaming [![Codecov](https://codecov.io/gh/monadical-sas/suitedconnectors.poker/branch/dev/graph/badge.svg?token=FUrKdNe6wp)](https://codecov.io/gh/monadical-sas/suitedconnectors.poker) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 ♥️🂱♣️🃑♦️🃁♠️🂡♥️🂱♣️🃑♦️🃁♠️🂡♥️🂱♣️🃑♦️🃁♠️🂡♥️🂱♣️🃑♦️🃁♠️🂡♥️🂱♣️🃑♦️🃁♠️🂡♥️🂱♣️🃑♦️🃁♠️
 
 ## Project Quickstart
